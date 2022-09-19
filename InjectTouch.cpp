@@ -139,17 +139,24 @@ void InjectTouchEvent(POINTER_TOUCH_INFO& contact)
 int main(int argc, char* argv[])
 {
 
-	Sleep(3000);
+	Sleep(3000);//给切换窗口预留时间 
 
 	InitializeTouchInjection(10, TOUCH_FEEDBACK_INDIRECT);
 	POINTER_TOUCH_INFO contact;
 	InitTouch(contact);
-	MakeTouch(contact, "down", 200, 200);
+	MakeTouch(contact, "down", 200, 200);//经验代码，不加会失效
 	MakeTouch(contact, "up", 200, 200);
 	Sleep(100);
+	string filepath = "";
+	string exename = "InjectTouch.exe";
+	string exePath(argv[0]);
+	if (argc == 1) {
+		exePath.resize(exePath.length() - exename.length());
+		filepath = exePath.append("touchinfo.txt");
+	}
+	else if (argc == 2)
+		filepath = argv[1];
 
-	string filepath(argv[1]);
-	//filepath=filepath.substr(1, filepath.length() - 3);//去除前后空格
 	HandleFile(filepath);
 	InjectTouchEvent(contact);
 	return 0;
