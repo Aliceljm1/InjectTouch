@@ -6,4 +6,5 @@ demo文件:touchinfo.txt,
 
 ## 参考资料：
 https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-injecttouchinput
+https://github.com/hecomi/uTouchInjection
 

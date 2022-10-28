@@ -4,6 +4,8 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include "utils.h"
+#include "InjectTouch.h"
 
 using namespace std;
 
@@ -17,44 +19,47 @@ struct Point
 typedef vector<Point> Stroke;
 Stroke              g_stroke;
 vector<Stroke>      g_strokeList;
+typedef vector<POINTER_TOUCH_INFO> ContackList;
+int g_dragX = 100;
 
-static inline void dprintf(const char* format, ...)
+
+void InjectTouch(ContackList& contactList)
 {
-	va_list vlArgs = NULL;
-
-	va_start(vlArgs, format);
-	size_t nLen = _vscprintf(format, vlArgs) + 1;
-	char* strBuffer = new char[nLen];
-	_vsnprintf_s(strBuffer, nLen, nLen, format, vlArgs);
-	va_end(vlArgs);
-
-	OutputDebugStringA(strBuffer);
-
-	delete[] strBuffer;
+	BOOL bRet = TRUE;
+	bRet =InjectTouchInput(static_cast<UINT32>(contactList.size()), &contactList[0]);
+	if (!bRet) {
+		dprintf("error=%d\n", GetLastError());
+	}
 }
 
-void InitTouch(POINTER_TOUCH_INFO& contact)
+void InitTouch(ContackList& list)
 {
-	memset(&contact, 0, sizeof(POINTER_TOUCH_INFO));
-	contact.pointerInfo.pointerType = PT_TOUCH; //we're sending touch input
-	contact.pointerInfo.pointerId = 0;          //contact 0
-	contact.touchFlags = TOUCH_FLAG_NONE;
-	contact.touchMask = TOUCH_MASK_CONTACTAREA | TOUCH_MASK_ORIENTATION | TOUCH_MASK_PRESSURE;
-	contact.orientation = 90;
-	contact.pressure = 32000;
+	int i = 0;
+	for (POINTER_TOUCH_INFO & contact : list)
+	{
+		memset(&contact, 0, sizeof(POINTER_TOUCH_INFO));
+		contact.pointerInfo.pointerType = PT_TOUCH; //we're sending touch input
+		contact.pointerInfo.pointerId = i++;          //contact 0
+		contact.touchFlags = TOUCH_FLAG_NONE;
+		contact.touchMask = TOUCH_MASK_CONTACTAREA | TOUCH_MASK_ORIENTATION | TOUCH_MASK_PRESSURE;
+		contact.orientation = 90;
+		contact.pressure = 32000;
+	}
+	
+	
 }
 
 
 void MakeTouch(POINTER_TOUCH_INFO& contact, const string& action, int x, int y)
 {
-
-	BOOL bRet = TRUE;
 	contact.pointerInfo.ptPixelLocation.x = x;
 	contact.pointerInfo.ptPixelLocation.y = y;
 	if (action == "down")
 		contact.pointerInfo.pointerFlags = POINTER_FLAG_DOWN | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
 	else if (action == "up")
 		contact.pointerInfo.pointerFlags = POINTER_FLAG_UP;
+	else if (action == "hover")
+		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE;
 	else
 		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
 	
@@ -63,12 +68,8 @@ void MakeTouch(POINTER_TOUCH_INFO& contact, const string& action, int x, int y)
 	contact.rcContact.bottom = x + 2;
 	contact.rcContact.left = y - 2;
 	contact.rcContact.right = y + 2;
-
-	bRet = InjectTouchInput(1, &contact);
-	if (!bRet) {
-		printf("error=%d", GetLastError());
-	}
 }
+
 
 void HandleFile(const string& file)
 {
@@ -115,37 +116,62 @@ void HandleFile(const string& file)
 	}
 }
 
+void doTouch(ContackList& list, Point& p,const string&action, const std::string& type, int i)
+{
+	MakeTouch(list.at(0), action, p.x, p.y);
+	if (type == "drag") {
+		MakeTouch(list.at(1), action, p.x + g_dragX, p.y);
+	}
+	else if (type == "zoomout") {
+		MakeTouch(list.at(1), action, p.x + g_dragX * (i + 1), p.y);
+	}
+	InjectTouch(list);
+}
+
 /**
 *模拟触控消息，存在如下原则，down和up附近必须要一同坐标move
 * add by ljm
 */
-void InjectTouchEvent(POINTER_TOUCH_INFO& contact)
+void InjectTouchEvent(ContackList& list,const string& type)
 {
 	for (auto& stroke: g_strokeList) {
 		for (int i = 0; i < stroke.size(); i++) {
 			Point p = stroke[i];
-			if (i == 0)
-				MakeTouch(contact, "down", p.x, p.y);
+			if (i == 0) {
+				doTouch(list, p, "down", type, i);
+			}
 			
 			Sleep(p.sleep);
-			MakeTouch(contact, "move", p.x, p.y);
+			doTouch(list, p, "move", type, i);
 
-			if(i==stroke.size()-1)
-				MakeTouch(contact, "up", p.x, p.y);
+			if (i == stroke.size() - 1) {
+				doTouch(list, p, "up", type, i);
+			}
+
 		}
 	}
 }
+
 
 int main(int argc, char* argv[])
 {
 
 	Sleep(3000);//给切换窗口预留时间 
+	static int TOUCH_NUM = 2;
+	string type = "zoomout";//双指手势，drag拖拉，zoomout放大,zoomin
 
-	InitializeTouchInjection(10, TOUCH_FEEDBACK_INDIRECT);
-	POINTER_TOUCH_INFO contact;
-	InitTouch(contact);
-	MakeTouch(contact, "down", 200, 200);//经验代码，不加会失效
-	MakeTouch(contact, "up", 200, 200);
+	InitializeTouchInjection(TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
+	POINTER_TOUCH_INFO c1, c2;
+	ContackList contactList; contactList.push_back(c1); 
+	if(type!="") contactList.push_back(c2);
+		
+	InitTouch(contactList);
+
+	MakeTouch(contactList.at(0), "hover", 200, 200);if(type != "")  
+	if (type != "")MakeTouch(contactList.at(1), "hover", 200+ g_dragX, 200);//经验代码，不加会失效
+	InjectTouch(contactList);
+
+
 	Sleep(100);
 	string filepath = "";
 	string exename = "InjectTouch.exe";
@@ -158,7 +184,9 @@ int main(int argc, char* argv[])
 		filepath = argv[1];
 
 	HandleFile(filepath);
-	InjectTouchEvent(contact);
+	InjectTouchEvent(contactList,type);
+	
 	return 0;
 }
+
 
