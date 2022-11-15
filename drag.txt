@@ -1,12 +1,90 @@
-LeftDown 1
-Delay 5
-MoveTo 500,500
-Delay 5
-MoveTo 500,600
-Delay 5
-MoveTo 500,700
-Delay 5
-MoveTo 500,800
-Delay 5
-MoveTo 500,900
-LeftUp 1
+LeftDown 500,500 0
+Delay 5 0
+MoveTo 500,500 0
+LeftDown 600,500 1
+Delay 5 0
+MoveTo 500,500 0
+Delay 5 1
+MoveTo 600,500 1
+LeftDown 700,500 2
+Delay 5 0
+MoveTo 500,500 0
+Delay 5 1
+MoveTo 600,500 1
+Delay 5 2
+MoveTo 700,500 2
+LeftDown 800,500 3
+Delay 5 0
+MoveTo 500,500 0
+Delay 5 1
+MoveTo 600,500 1
+Delay 5 2
+MoveTo 700,500 2
+Delay 5 3
+MoveTo 800,500 3
+LeftDown 900,500 4
+Delay 5 0
+MoveTo 500,600 0
+Delay 5 1
+MoveTo 600,600 1
+Delay 5 2
+MoveTo 700,600 2
+Delay 5 3
+MoveTo 800,600 3
+Delay 5 4
+MoveTo 900,600 4
+Delay 5 0
+MoveTo 500,700 0
+Delay 5 1
+MoveTo 600,700 1
+Delay 5 2
+MoveTo 700,700 2
+Delay 5 3
+MoveTo 800,700 3
+Delay 5 4
+MoveTo 900,700 4
+Delay 5 0
+MoveTo 500,800 0
+Delay 5 1
+MoveTo 600,800 1
+Delay 5 2
+MoveTo 700,800 2
+Delay 5 3
+MoveTo 800,800 3
+Delay 5 4
+MoveTo 900,800 4
+Delay 5 0
+MoveTo 500,900 0
+Delay 5 1
+MoveTo 600,900 1
+Delay 5 2
+MoveTo 700,900 2
+Delay 5 3
+MoveTo 800,900 3
+Delay 5 4
+MoveTo 900,900 4
+LeftUp 500,900 0
+Delay 5 0
+MoveTo 600,900 0
+Delay 5 1
+MoveTo 700,900 1
+Delay 5 2
+MoveTo 800,900 2
+Delay 5 3
+MoveTo 900,900 3
+LeftUp 600,900 1
+Delay 5 0
+MoveTo 700,900 0
+Delay 5 1
+MoveTo 800,900 1
+Delay 5 2
+MoveTo 900,900 2
+LeftUp 700,900 2
+Delay 5 0
+MoveTo 800,900 0
+Delay 5 1
+MoveTo 900,900 1
+LeftUp 800,900 3
+Delay 5 0
+MoveTo 900,900 0
+LeftUp 900,900 4

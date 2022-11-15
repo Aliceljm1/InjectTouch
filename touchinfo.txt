@@ -1,84 +1,230 @@
-LeftDown 1
-Delay 15
-MoveTo 683,482
-Delay 0
-MoveTo 664,477
-Delay 15
-MoveTo 645,476
-Delay 0
-MoveTo 627,476
-Delay 16
-MoveTo 607,476
-Delay 0
-MoveTo 597,476
-Delay 15
-MoveTo 585,479
-Delay 0
-MoveTo 576,484
-Delay 16
-MoveTo 573,486
-Delay 0
-MoveTo 572,489
-Delay 16
-MoveTo 572,494
-Delay 0
-MoveTo 572,502
-Delay 15
-MoveTo 584,512
-Delay 16
-MoveTo 637,537
-Delay 16
-MoveTo 669,551
-Delay 0
-MoveTo 701,563
-Delay 0
-MoveTo 716,570
-Delay 15
-MoveTo 727,577
-Delay 0
-MoveTo 733,582
-Delay 16
-MoveTo 734,589
-Delay 0
-MoveTo 734,595
-Delay 15
-MoveTo 729,603
-Delay 0
-MoveTo 717,608
-Delay 16
-MoveTo 695,613
-Delay 0
-MoveTo 673,616
-Delay 16
-MoveTo 655,616
-Delay 0
-MoveTo 636,616
-Delay 15
-MoveTo 617,613
-Delay 0
-MoveTo 608,606
-Delay 16
-MoveTo 601,597
-Delay 0
-MoveTo 600,585
-Delay 16
-MoveTo 600,565
-Delay 0
-MoveTo 600,544
-Delay 15
-MoveTo 607,526
-Delay 0
-MoveTo 620,505
-Delay 16
-MoveTo 630,495
-Delay 0
-MoveTo 638,484
-Delay 15
-MoveTo 643,479
-Delay 16
-MoveTo 647,475
-Delay 0
-MoveTo 652,471
-Delay 16
-MoveTo 655,470
-LeftUp 1
+LeftDown 683,482 0
+MoveTo 683,482 0
+LeftDown 783,482 1
+MoveTo 683,482 0
+MoveTo 783,482 1
+LeftDown 883,482 2
+MoveTo 683,482 0
+MoveTo 783,482 1
+MoveTo 883,482 2
+LeftDown 983,482 3
+MoveTo 683,482 0
+MoveTo 783,482 1
+MoveTo 883,482 2
+MoveTo 983,482 3
+LeftDown 1083,482 4
+MoveTo 664,477 0
+MoveTo 764,477 1
+MoveTo 864,477 2
+MoveTo 964,477 3
+MoveTo 1064,477 4
+MoveTo 645,476 0
+MoveTo 745,476 1
+MoveTo 845,476 2
+MoveTo 945,476 3
+MoveTo 1045,476 4
+MoveTo 627,476 0
+MoveTo 727,476 1
+MoveTo 827,476 2
+MoveTo 927,476 3
+MoveTo 1027,476 4
+MoveTo 607,476 0
+MoveTo 707,476 1
+MoveTo 807,476 2
+MoveTo 907,476 3
+MoveTo 1007,476 4
+MoveTo 597,476 0
+MoveTo 697,476 1
+MoveTo 797,476 2
+MoveTo 897,476 3
+MoveTo 997,476 4
+MoveTo 585,479 0
+MoveTo 685,479 1
+MoveTo 785,479 2
+MoveTo 885,479 3
+MoveTo 985,479 4
+MoveTo 576,484 0
+MoveTo 676,484 1
+MoveTo 776,484 2
+MoveTo 876,484 3
+MoveTo 976,484 4
+MoveTo 573,486 0
+MoveTo 673,486 1
+MoveTo 773,486 2
+MoveTo 873,486 3
+MoveTo 973,486 4
+MoveTo 572,489 0
+MoveTo 672,489 1
+MoveTo 772,489 2
+MoveTo 872,489 3
+MoveTo 972,489 4
+MoveTo 572,494 0
+MoveTo 672,494 1
+MoveTo 772,494 2
+MoveTo 872,494 3
+MoveTo 972,494 4
+MoveTo 572,502 0
+MoveTo 672,502 1
+MoveTo 772,502 2
+MoveTo 872,502 3
+MoveTo 972,502 4
+MoveTo 584,512 0
+MoveTo 684,512 1
+MoveTo 784,512 2
+MoveTo 884,512 3
+MoveTo 984,512 4
+MoveTo 637,537 0
+MoveTo 737,537 1
+MoveTo 837,537 2
+MoveTo 937,537 3
+MoveTo 1037,537 4
+MoveTo 669,551 0
+MoveTo 769,551 1
+MoveTo 869,551 2
+MoveTo 969,551 3
+MoveTo 1069,551 4
+MoveTo 701,563 0
+MoveTo 801,563 1
+MoveTo 901,563 2
+MoveTo 1001,563 3
+MoveTo 1101,563 4
+MoveTo 716,570 0
+MoveTo 816,570 1
+MoveTo 916,570 2
+MoveTo 1016,570 3
+MoveTo 1116,570 4
+MoveTo 727,577 0
+MoveTo 827,577 1
+MoveTo 927,577 2
+MoveTo 1027,577 3
+MoveTo 1127,577 4
+MoveTo 733,582 0
+MoveTo 833,582 1
+MoveTo 933,582 2
+MoveTo 1033,582 3
+MoveTo 1133,582 4
+MoveTo 734,589 0
+MoveTo 834,589 1
+MoveTo 934,589 2
+MoveTo 1034,589 3
+MoveTo 1134,589 4
+MoveTo 734,595 0
+MoveTo 834,595 1
+MoveTo 934,595 2
+MoveTo 1034,595 3
+MoveTo 1134,595 4
+MoveTo 729,603 0
+MoveTo 829,603 1
+MoveTo 929,603 2
+MoveTo 1029,603 3
+MoveTo 1129,603 4
+MoveTo 717,608 0
+MoveTo 817,608 1
+MoveTo 917,608 2
+MoveTo 1017,608 3
+MoveTo 1117,608 4
+MoveTo 695,613 0
+MoveTo 795,613 1
+MoveTo 895,613 2
+MoveTo 995,613 3
+MoveTo 1095,613 4
+MoveTo 673,616 0
+MoveTo 773,616 1
+MoveTo 873,616 2
+MoveTo 973,616 3
+MoveTo 1073,616 4
+MoveTo 655,616 0
+MoveTo 755,616 1
+MoveTo 855,616 2
+MoveTo 955,616 3
+MoveTo 1055,616 4
+MoveTo 636,616 0
+MoveTo 736,616 1
+MoveTo 836,616 2
+MoveTo 936,616 3
+MoveTo 1036,616 4
+MoveTo 617,613 0
+MoveTo 717,613 1
+MoveTo 817,613 2
+MoveTo 917,613 3
+MoveTo 1017,613 4
+MoveTo 608,606 0
+MoveTo 708,606 1
+MoveTo 808,606 2
+MoveTo 908,606 3
+MoveTo 1008,606 4
+MoveTo 601,597 0
+MoveTo 701,597 1
+MoveTo 801,597 2
+MoveTo 901,597 3
+MoveTo 1001,597 4
+MoveTo 600,585 0
+MoveTo 700,585 1
+MoveTo 800,585 2
+MoveTo 900,585 3
+MoveTo 1000,585 4
+MoveTo 600,565 0
+MoveTo 700,565 1
+MoveTo 800,565 2
+MoveTo 900,565 3
+MoveTo 1000,565 4
+MoveTo 600,544 0
+MoveTo 700,544 1
+MoveTo 800,544 2
+MoveTo 900,544 3
+MoveTo 1000,544 4
+MoveTo 607,526 0
+MoveTo 707,526 1
+MoveTo 807,526 2
+MoveTo 907,526 3
+MoveTo 1007,526 4
+MoveTo 620,505 0
+MoveTo 720,505 1
+MoveTo 820,505 2
+MoveTo 920,505 3
+MoveTo 1020,505 4
+MoveTo 630,495 0
+MoveTo 730,495 1
+MoveTo 830,495 2
+MoveTo 930,495 3
+MoveTo 1030,495 4
+MoveTo 638,484 0
+MoveTo 738,484 1
+MoveTo 838,484 2
+MoveTo 938,484 3
+MoveTo 1038,484 4
+MoveTo 643,479 0
+MoveTo 743,479 1
+MoveTo 843,479 2
+MoveTo 943,479 3
+MoveTo 1043,479 4
+MoveTo 647,475 0
+MoveTo 747,475 1
+MoveTo 847,475 2
+MoveTo 947,475 3
+MoveTo 1047,475 4
+MoveTo 652,471 0
+MoveTo 752,471 1
+MoveTo 852,471 2
+MoveTo 952,471 3
+MoveTo 1052,471 4
+MoveTo 655,470 0
+MoveTo 755,470 1
+MoveTo 855,470 2
+MoveTo 955,470 3
+MoveTo 1055,470 4
+LeftUp 655,470 0
+MoveTo 755,470 0
+MoveTo 855,470 1
+MoveTo 955,470 2
+MoveTo 1055,470 3
+LeftUp 755,470 1
+MoveTo 855,470 0
+MoveTo 955,470 1
+MoveTo 1055,470 2
+LeftUp 855,470 2
+MoveTo 955,470 0
+MoveTo 1055,470 1
+LeftUp 955,470 3
+MoveTo 1055,470 0
+LeftUp 1055,470 4
