@@ -1,0 +1,8 @@
+﻿  InjectTouch.cpp
+src\InjectTouch.cpp(80): warning C4018: “>=”: 有符号/无符号不匹配
+src\InjectTouch.cpp(133): warning C4018: “<”: 有符号/无符号不匹配
+src\InjectTouch.cpp(135): warning C4018: “<”: 有符号/无符号不匹配
+  stdafx.cpp
+  utils.cpp
+  正在生成代码...
+  InjectTouch.vcxproj -> C:\Users\62453\Desktop\InjectTouch\Release\InjectTouch.exe
