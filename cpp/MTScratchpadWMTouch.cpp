@@ -44,7 +44,7 @@
 #include "Stroke.h"
 
 #define MAX_LOADSTRING 100
-FILE *fp = fopen("./log.txt","w+");
+FILE *fp = fopen("../log.txt","w+");
 
 // Global Variables:
 HINSTANCE g_hInst;                              // Current module instance
@@ -184,8 +184,9 @@ void OnTouchMoveHandler(HWND hWnd, const TOUCHINPUT& ti)
     POINT pt;
     pt = GetTouchPoint(hWnd, ti);
     //dprintf("x=%d,y=%d,id=%d,move\n", pt.x, pt.y, iCursorId);
-	fprintf(fp, "Delay 5 %d\n", iStrk);
-	fprintf(fp, "MoveTo %d,%d %d\n", pt.x, pt.y + 23, iStrk + g_StrkColFinished.Count()); // 这里要加上已经完成的点数量
+	int id = iStrk + g_StrkColFinished.Count();
+	fprintf(fp, "Delay 5 %d\n", id); // 这里要加上已经完成的点数量
+	fprintf(fp, "MoveTo %d,%d %d\n", pt.x, pt.y + 23, id);
 	fflush(fp);
     // Add contact point to the stroke
     g_StrkColDrawing[iStrk]->Add(pt);
