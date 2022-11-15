@@ -152,7 +152,7 @@ void OnTouchDownHandler(HWND hWnd, const TOUCHINPUT& ti)
     // We have just started a new stroke, which must have an ID value unique
     // among all the strokes currently being drawn. Check if there is a stroke
     // with the same ID in the collection of the strokes in drawing.
-    //ASSERT(g_StrkColDrawing.FindStrokeById(iCursorId) == -1);
+    ASSERT(g_StrkColDrawing.FindStrokeById(iCursorId) == -1);
 
     // Create new stroke, add point and assign a color to it.
     CStroke* pStrkNew = new CStroke;
@@ -163,7 +163,7 @@ void OnTouchDownHandler(HWND hWnd, const TOUCHINPUT& ti)
     // Add new stroke to the collection of strokes in drawing.
     g_StrkColDrawing.Add(pStrkNew);
 	// 要在g_StrkColDrawing.Add之后打印，不然ID是-1
-	fprintf(fp, "LeftDown %d,%d %d\n",pt.x,pt.y + 23,g_StrkColDrawing.FindStrokeById(iCursorId));
+	fprintf(fp, "LeftDown %d,%d %d\n",pt.x,pt.y + 23, g_StrkColDrawing.FindStrokeById(iCursorId));
 	fflush(fp);
 }
 
@@ -178,14 +178,14 @@ void OnTouchMoveHandler(HWND hWnd, const TOUCHINPUT& ti)
     int iCursorId = GetTouchContactID(ti);
     // Find the stroke in the collection of the strokes in drawing.
     int iStrk = g_StrkColDrawing.FindStrokeById(iCursorId);
-    //ASSERT((iStrk >= 0) && (iStrk < g_StrkColDrawing.Count()));
+    ASSERT((iStrk >= 0) && (iStrk < g_StrkColDrawing.Count()));
 
     // Extract contact info: contact point
     POINT pt;
     pt = GetTouchPoint(hWnd, ti);
     //dprintf("x=%d,y=%d,id=%d,move\n", pt.x, pt.y, iCursorId);
 	fprintf(fp, "Delay 5 %d\n", iStrk);
-	fprintf(fp, "MoveTo %d,%d %d\n", pt.x, pt.y + 23, iStrk);
+	fprintf(fp, "MoveTo %d,%d %d\n", pt.x, pt.y + 23, iStrk + g_StrkColFinished.Count()); // 这里要加上已经完成的点数量
 	fflush(fp);
     // Add contact point to the stroke
     g_StrkColDrawing[iStrk]->Add(pt);
@@ -210,7 +210,7 @@ void OnTouchUpHandler(HWND hWnd, const TOUCHINPUT& ti)
     //dprintf("x=%d,y=%d,id=%d,up\n", pt.x, pt.y, iCursorId);
     // Find the stroke in the collection of the strokes in drawing.
     int iStrk = g_StrkColDrawing.FindStrokeById(iCursorId);
-    //ASSERT((iStrk >= 0) && (iStrk < g_StrkColDrawing.Count()));
+    ASSERT((iStrk >= 0) && (iStrk < g_StrkColDrawing.Count()));
 
     // Add this stroke to the collection of finished strokes.
     g_StrkColFinished.Add(g_StrkColDrawing[iStrk]);

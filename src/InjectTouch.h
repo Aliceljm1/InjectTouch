@@ -3,7 +3,6 @@
 #include <string>
 #include <sstream>
 #include <fstream>
-#include <unordered_map>
 #include <vector>
 #include "utils.h"
 
@@ -13,28 +12,15 @@ int g_dragX = 100;
 
 struct Point
 {
+	string cmd;
 	int pointerId;
 	int x;
 	int y;
 	int sleep;
-
-	bool operator==(const Point & p) const 
-	{
-		return x == p.x && y == p.y && pointerId == p.pointerId;
-	}
-};
-
-struct hash_point 
-{
-	size_t operator()(const Point & p) const 
-	{
-		return hash<int>()(p.x) ^ hash<int>()(p.y) ^ hash<int>()(p.pointerId);
-	}
 };
 
 typedef vector<Point> Stroke;
 typedef vector<Stroke> StrokeGroup;
-unordered_map<Point, bool, hash_point> sets;
 
 struct StrokeGroupInfo
 {

@@ -75,16 +75,11 @@ void HandleFile(const string& file)
 				int index = data.find_first_of(",");
 				int x = atoi(data.substr(0, index).c_str());
 				int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-				Point p = { pointerId, x, y, lastDelay };
+				Point p = { cmd, pointerId, x, y, lastDelay };
 
-				// 白板中文件生成的点会有少量重复
-				if(!sets[p]) 
-				{
-					if(pointerId >= temp.size()) temp.resize(pointerId + 1);
-					temp[pointerId].push_back(p);
-					lastDelay = 0;
-					sets[p] = true;
-				}
+				if(pointerId >= temp.size()) temp.resize(pointerId + 1);
+				temp[pointerId].push_back(p);
+				lastDelay = 0;
 			}
 		}
 
@@ -141,14 +136,14 @@ void InjectTouchEvent(ContackList& list, const string& type)
 				{
 					Point p = strokes[l][i];
 
-					if(i == 0) 
+					if(p.cmd == "LeftDown")
 					{
 						strokeDown.push_back(p);
 					}
 
 					strokeMove.push_back(p);
 
-					if(i == strokes[l].size() - 1) 
+					if(p.cmd == "LeftUp")
 					{
 						strokeUp.push_back(p);
 					}
@@ -156,9 +151,8 @@ void InjectTouchEvent(ContackList& list, const string& type)
 				}
 			}
 			doTouch(list, strokeDown, "down", type, i);
-			Sleep(5); // 这里的睡眠时间不知道按照哪个点。生成脚本中没有写入delay，如需睡眠，需要在白板中加上代码重新生成。
+			Sleep(5); // 这里的睡眠时间不知道按照哪个点。
 			doTouch(list, strokeMove, "move", type, i);
-			// Sleep(1);
 			doTouch(list, strokeUp, "up", type, i);
 		}
 	}
