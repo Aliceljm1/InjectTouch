@@ -40,7 +40,7 @@ void MakeTouch(POINTER_TOUCH_INFO& contact, const string& action, int x, int y)
 	else
 		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
 
-	//ÉèÖÃ´¥¿ØÃæ»ı
+	//è®¾ç½®è§¦æ§é¢ç§¯
 	contact.rcContact.top = x - 2;
 	contact.rcContact.bottom = x + 2;
 	contact.rcContact.left = y - 2;
@@ -113,7 +113,7 @@ void doTouch(ContackList& list, Stroke& Stroke, string action, const std::string
 }
 
 /**
- * Ä£Äâ´¥¿ØÏûÏ¢£¬´æÔÚÈçÏÂÔ­Ôò£¬downºÍup¸½½ü±ØĞëÒªÒ»Í¬×ø±êmove
+ * æ¨¡æ‹Ÿè§¦æ§æ¶ˆæ¯ï¼Œå­˜åœ¨å¦‚ä¸‹åŸåˆ™ï¼Œdownå’Œupé™„è¿‘å¿…é¡»è¦ä¸€åŒåæ ‡move
  * add by ljm
  */
 void InjectTouchEvent(ContackList& list, const string& type)
@@ -151,7 +151,7 @@ void InjectTouchEvent(ContackList& list, const string& type)
 				}
 			}
 			doTouch(list, strokeDown, "down", type, i);
-			Sleep(5); // ÕâÀïµÄË¯ÃßÊ±¼ä²»ÖªµÀ°´ÕÕÄÄ¸öµã¡£
+			Sleep(5); // è¿™é‡Œçš„ç¡çœ æ—¶é—´ä¸çŸ¥é“æŒ‰ç…§å“ªä¸ªç‚¹ã€‚
 			doTouch(list, strokeMove, "move", type, i);
 			doTouch(list, strokeUp, "up", type, i);
 		}
@@ -168,7 +168,6 @@ void HandleCommandInfo(int argc, char* argv[], int& TOUCH_NUM, string& filepath,
 	else if (argc == 2)
 	{
 		filepath = argv[1];
-		TOUCH_NUM = 2;
 	}
 	else if (argc == 3)
 	{
@@ -185,10 +184,7 @@ void HandleCommandInfo(int argc, char* argv[], int& TOUCH_NUM, string& filepath,
 
 void run(int& TOUCH_NUM, string& filepath, string& exename, string& exePath, string& type)
 {
-	// ÎÄ±¾ÖĞ´æ´¢µÄÊıÁ¿Îª5£¬TOUCH_NUM >= 5
-	TOUCH_NUM = 10;
-
-	Sleep(3000);//¸øÇĞ»»´°¿ÚÔ¤ÁôÊ±¼ä 
+	Sleep(3000);//ç»™åˆ‡æ¢çª—å£é¢„ç•™æ—¶é—´ 
 	InitializeTouchInjection(TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
 	ContackList contactList;
 
@@ -206,7 +202,7 @@ void run(int& TOUCH_NUM, string& filepath, string& exename, string& exePath, str
 	if (type != "")
 	{
 		for (int i = 0; i < TOUCH_NUM; i++)
-			MakeTouch(contactList.at(i), "hover", 0, 0);//¾­Ñé´úÂë£¬²»¼Ó»áÊ§Ğ§
+			MakeTouch(contactList.at(i), "hover", 0, 0);//ç»éªŒä»£ç ï¼Œä¸åŠ ä¼šå¤±æ•ˆ
 	}
 	InjectTouch(contactList);
 
@@ -217,13 +213,13 @@ void run(int& TOUCH_NUM, string& filepath, string& exename, string& exePath, str
 int main(int argc, char* argv[])
 {
 	// max touch num  default 10
-	int TOUCH_NUM = 10;
+	int TOUCH_NUM = 10; // æ–‡æœ¬ä¸­å­˜å‚¨çš„æ•°é‡ä¸º5ï¼ŒTOUCH_NUM >= 5
 	string filepath = "drag.txt";
 	string exename = "InjectTouch.exe";
 	string exePath(argv[0]);
-	string type = "drag";// Ë«Ö¸ÊÖÊÆ£¬dragÍÏÀ­£¬zoomout·Å´ó,zoomin
+	string type = "drag";// åŒæŒ‡æ‰‹åŠ¿ï¼Œdragæ‹–æ‹‰ï¼Œzoomoutæ”¾å¤§,zoomin
 
-	// ´¦ÀíÃüÁîĞĞĞÅÏ¢
+	// å¤„ç†å‘½ä»¤è¡Œä¿¡æ¯
 	HandleCommandInfo(argc, argv, TOUCH_NUM, filepath, exename, exePath, type);
 
 	run(TOUCH_NUM, filepath, exename, exePath, type);
