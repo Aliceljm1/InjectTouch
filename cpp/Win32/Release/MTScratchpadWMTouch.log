@@ -1,0 +1,8 @@
+﻿  MTScratchpadWMTouch.cpp
+MTScratchpadWMTouch.cpp(47): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\include\stdio.h(218) : 参见“fopen”的声明
+MTScratchpadWMTouch.cpp(318): warning C4100: “nCmdShow”: 未引用的形参
+  Stroke.cpp
+  正在生成代码
+  已完成代码的生成
+  MTScratchpadWMTouch.vcxproj -> C:\Users\62453\Desktop\InjectTouch\cpp\Win32\Release\testMtouch.exe
