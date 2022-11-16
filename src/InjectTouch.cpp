@@ -1,6 +1,28 @@
 
 #include "stdafx.h"
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <vector>
+#include "utils.h"
 #include "InjectTouch.h"
+
+using namespace std;
+
+struct Point
+{
+	int pointerId;
+	int x;
+	int y;
+	int sleep;
+};
+
+typedef vector<Point> Stroke;
+Stroke              g_stroke;
+vector<Stroke>      g_strokeList;
+typedef vector<POINTER_TOUCH_INFO> ContackList;
+int g_dragX = 100;
+static int TOUCH_NUM;
 
 void InjectTouch(ContackList& contactList)
 {
@@ -27,6 +49,7 @@ void InitTouch(ContackList& list)
 	}
 }
 
+
 void MakeTouch(POINTER_TOUCH_INFO& contact, const string& action, int x, int y)
 {
 	contact.pointerInfo.ptPixelLocation.x = x;
@@ -40,51 +63,54 @@ void MakeTouch(POINTER_TOUCH_INFO& contact, const string& action, int x, int y)
 	else
 		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
 
-	//è®¾ç½®è§¦æ§é¢ç§¯
+	//ÉèÖÃ´¥¿ØÃæ»ı
 	contact.rcContact.top = x - 2;
 	contact.rcContact.bottom = x + 2;
 	contact.rcContact.left = y - 2;
 	contact.rcContact.right = y + 2;
 }
 
+
 void HandleFile(const string& file)
 {
-	g_stroke.clear(); g_strokeGroup.strokeList.clear();
+	g_stroke.clear(); g_strokeList.clear();
 	ifstream infile(file.c_str());
 	string line;
-	vector<Stroke> temp(1);
+	Stroke temp; int lastDelay;
 	try
 	{
-		int lastDelay = 0;
 		while (std::getline(infile, line))
 		{
 			std::istringstream iss(line);
 			string cmd, data;
 			int pointerId;
-			if (!(iss >> cmd >> data >> pointerId))
+			if (!(iss >> cmd >> data))
 			{
 				dprintf("read data error");
 				break;
 			} // error
-			if (cmd == "Delay")
+
+			if (cmd == "LeftDown")
 			{
-				lastDelay = atoi(data.c_str());
+				temp.clear();
 			}
-			else if(cmd == "LeftDown" || cmd == "MoveTo" || cmd == "LeftUp")
+			else if (cmd == "LeftUp")
+				g_strokeList.push_back(temp);
+			else if (cmd == "MoveTo")
 			{
 				int index = data.find_first_of(",");
 				int x = atoi(data.substr(0, index).c_str());
 				int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-				Point p = { cmd, pointerId, x, y, lastDelay };
-
-				if(pointerId >= temp.size()) temp.resize(pointerId + 1);
-				temp[pointerId].push_back(p);
-				lastDelay = 0;
+				Point p = { pointerId, x, y, lastDelay };
+				temp.push_back(p);
 			}
+			else if (cmd == "Delay")
+			{
+				lastDelay = atoi(data.c_str());
+			}
+
 		}
 
-		g_strokeGroup.strokeList.push_back(temp);
-		g_strokeGroup.groupCount = temp.size();
 	}
 	catch (const std::exception& e)
 	{
@@ -92,74 +118,63 @@ void HandleFile(const string& file)
 	}
 }
 
-void doTouch(ContackList& list, Stroke& Stroke, string action, const std::string& type, int idx)
+void doTouch(ContackList& list, Point& p, const string& action, const std::string& type, int idx)
 {
+	MakeTouch(list.at(0), action, p.x, p.y);
 	if (type == "drag")
 	{
-		for (auto &p : Stroke) 
+		for (int i = 1; i < TOUCH_NUM; i++)
 		{
-			MakeTouch(list.at(p.pointerId), action, p.x, p.y);
+			MakeTouch(list.at(i), action, p.x + g_dragX * i, p.y);
 		}
 	}
 	else if (type == "zoomout")
 	{
-		for (auto &p : Stroke) 
+		for (int i = 1; i < TOUCH_NUM; i++)
 		{
-			short flag = (p.pointerId & 1) ? 1 : -1;
-			MakeTouch(list.at(p.pointerId), action, p.x + g_dragX * idx * flag, p.y + g_dragX * (idx));
+			MakeTouch(list.at(i), action, p.x + g_dragX * (idx + i), p.y);
 		}
 	}
 	InjectTouch(list);
 }
 
 /**
- * æ¨¡æ‹Ÿè§¦æ§æ¶ˆæ¯ï¼Œå­˜åœ¨å¦‚ä¸‹åŸåˆ™ï¼Œdownå’Œupé™„è¿‘å¿…é¡»è¦ä¸€åŒåæ ‡move
- * add by ljm
- */
+*Ä£Äâ´¥¿ØÏûÏ¢£¬´æÔÚÈçÏÂÔ­Ôò£¬downºÍup¸½½ü±ØĞëÒªÒ»Í¬×ø±êmove
+* add by ljm
+*/
 void InjectTouchEvent(ContackList& list, const string& type)
 {
-	for (StrokeGroup& strokes : g_strokeGroup.strokeList)
+	for (auto& stroke : g_strokeList)
 	{
-		int maxLength = -1;
-		for (int i = 0; i < g_strokeGroup.groupCount; i++)
+		for (int i = 0; i < stroke.size(); i++)
 		{
-			maxLength = max(maxLength, (int)strokes[i].size());
-		}
-		for (int i = 0; i < maxLength; i++)
-		{
-			Stroke strokeDown;
-			Stroke strokeMove;
-			Stroke strokeUp;
-			for (int l = 0; l < strokes.size(); l++) 
+			Point p = stroke[i];
+			if (i == 0)
 			{
-				if(i < strokes[l].size()) 
-				{
-					Point p = strokes[l][i];
-
-					if(p.cmd == "LeftDown")
-					{
-						strokeDown.push_back(p);
-					}
-
-					strokeMove.push_back(p);
-
-					if(p.cmd == "LeftUp")
-					{
-						strokeUp.push_back(p);
-					}
-
-				}
+				doTouch(list, p, "down", type, i);
 			}
-			doTouch(list, strokeDown, "down", type, i);
-			Sleep(5); // è¿™é‡Œçš„ç¡çœ æ—¶é—´ä¸çŸ¥é“æŒ‰ç…§å“ªä¸ªç‚¹ã€‚
-			doTouch(list, strokeMove, "move", type, i);
-			doTouch(list, strokeUp, "up", type, i);
+
+			Sleep(p.sleep + 5);
+			doTouch(list, p, "move", type, i);
+
+			if (i == stroke.size() - 1)
+			{
+				doTouch(list, p, "up", type, i);
+			}
+
 		}
 	}
 }
 
-void HandleCommandInfo(int argc, char* argv[], int& TOUCH_NUM, string& filepath, string& exename, string& exePath, string& type)
+
+int main(int argc, char* argv[])
 {
+	string filepath = "drag.txt";
+	string exename = "InjectTouch.exe";
+	string exePath(argv[0]);
+	string type = "drag";// Ë«Ö¸ÊÖÊÆ£¬dragÍÏÀ­£¬zoomout·Å´ó,zoomin
+	TOUCH_NUM = 2;
+
 	if (argc == 1)
 	{
 		exePath.resize(exePath.length() - exename.length());
@@ -174,20 +189,16 @@ void HandleCommandInfo(int argc, char* argv[], int& TOUCH_NUM, string& filepath,
 		filepath = argv[1];
 		TOUCH_NUM = atoi(argv[2]);
 	}
-	else if (argc == 4)
+	else if(argc == 4)
 	{
 		filepath = argv[1];
 		TOUCH_NUM = atoi(argv[2]);
 		type = argv[3];
 	}
-}
 
-void run(int& TOUCH_NUM, string& filepath, string& exename, string& exePath, string& type)
-{
-	Sleep(3000);//ç»™åˆ‡æ¢çª—å£é¢„ç•™æ—¶é—´ 
+	Sleep(3000);//¸øÇĞ»»´°¿ÚÔ¤ÁôÊ±¼ä 
 	InitializeTouchInjection(TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
 	ContackList contactList;
-
 	if (type != "")
 	{
 		for (int i = 0; i < TOUCH_NUM; i++)
@@ -202,27 +213,11 @@ void run(int& TOUCH_NUM, string& filepath, string& exename, string& exePath, str
 	if (type != "")
 	{
 		for (int i = 0; i < TOUCH_NUM; i++)
-			MakeTouch(contactList.at(i), "hover", 0, 0);//ç»éªŒä»£ç ï¼Œä¸åŠ ä¼šå¤±æ•ˆ
+			MakeTouch(contactList.at(i), "hover", 200 + g_dragX * i, 200);//¾­Ñé´úÂë£¬²»¼Ó»áÊ§Ğ§
 	}
 	InjectTouch(contactList);
 
 	HandleFile(filepath);
 	InjectTouchEvent(contactList, type);
-}
-
-int main(int argc, char* argv[])
-{
-	// max touch num  default 10
-	int TOUCH_NUM = 10; // æ–‡æœ¬ä¸­å­˜å‚¨çš„æ•°é‡ä¸º5ï¼ŒTOUCH_NUM >= 5
-	string filepath = "drag.txt";
-	string exename = "InjectTouch.exe";
-	string exePath(argv[0]);
-	string type = "drag";// åŒæŒ‡æ‰‹åŠ¿ï¼Œdragæ‹–æ‹‰ï¼Œzoomoutæ”¾å¤§,zoomin
-
-	// å¤„ç†å‘½ä»¤è¡Œä¿¡æ¯
-	HandleCommandInfo(argc, argv, TOUCH_NUM, filepath, exename, exePath, type);
-
-	run(TOUCH_NUM, filepath, exename, exePath, type);
-	
 	return 0;
 }
