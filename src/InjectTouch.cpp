@@ -11,7 +11,6 @@ using namespace std;
 
 struct Point
 {
-	int pointerId;
 	int x;
 	int y;
 	int sleep;
@@ -83,7 +82,6 @@ void HandleFile(const string& file)
 		{
 			std::istringstream iss(line);
 			string cmd, data;
-			int pointerId;
 			if (!(iss >> cmd >> data))
 			{
 				dprintf("read data error");
@@ -101,7 +99,7 @@ void HandleFile(const string& file)
 				int index = data.find_first_of(",");
 				int x = atoi(data.substr(0, index).c_str());
 				int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-				Point p = { pointerId, x, y, lastDelay };
+				Point p = {x, y, lastDelay};
 				temp.push_back(p);
 			}
 			else if (cmd == "Delay")
@@ -173,7 +171,7 @@ int main(int argc, char* argv[])
 	string exename = "InjectTouch.exe";
 	string exePath(argv[0]);
 	string type = "drag";// 双指手势，drag拖拉，zoomout放大,zoomin
-	TOUCH_NUM = 2;
+	TOUCH_NUM = 3;
 
 	if (argc == 1)
 	{

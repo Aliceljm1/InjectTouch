@@ -217,7 +217,6 @@ int main(int argc, char* argv[])
 	// 处理命令行信息
 	HandleCommandInfo(argc, argv, TOUCH_NUM, filepath, exename, exePath, type);
 
-	filepath = "log.txt";
 	run(TOUCH_NUM, filepath, exename, exePath, type);
 	
 	return 0;

@@ -1,0 +1,7 @@
+{LeftDown 500,500 0}{Delay 5 1}
+{MoveTo 500,500 0}{LeftDown 600,500 1}{Delay 5 2}
+{MoveTo 500,500 0}{MoveTo 600,500 1}{LeftDown 700,500 2}{Delay 5 3}
+{MoveTo 500,500 0}{MoveTo 600,500 1}{MoveTo 700,500 2}{Delay 5 3}
+{LeftUp 500,500 0}{MoveTo 600,500 1}{MoveTo 700,500 2}{Delay 5 3}
+{LeftUp 600,500 1}{MoveTo 700,500 2}{Delay 5 2}
+{LeftUp 700,500 2}{Delay 5 1}
