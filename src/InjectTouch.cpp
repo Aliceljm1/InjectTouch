@@ -197,6 +197,59 @@ void inject_touch_event(ContackList& list, const Zoom& zoom)
 	}
 }
 
+
+void MoveMouse(int x, int y) {
+	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
+	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
+	DWORD dx = x * (65535 / screenWidth);
+	DWORD dy = y * (65535 / screenHeight);
+	OutputDebugStringA(std::to_string(dx).c_str());
+	OutputDebugStringA(",");
+	OutputDebugStringA(std::to_string(dy).c_str());
+	OutputDebugStringA("\n");
+	
+	mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
+}
+
+void MouseDown(int x, int y) {
+	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
+	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
+	DWORD dx = x * (65535 / screenWidth);
+	DWORD dy = y * (65535 / screenHeight);
+	mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
+}
+
+void MouseUp(int x, int y) {
+	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
+	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
+	DWORD dx = x * (65535 / screenWidth);
+	DWORD dy = y * (65535 / screenHeight);
+	mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
+}
+
+void run_send_input(const std::string& filepath)
+{
+	handle_file(filepath, 1);
+	for (auto& stroke : g_strokeGroup.strokeList)
+	{
+		for (auto& p : stroke)
+		{
+			if (p.cmd == CMD_LEFT_DOWN)
+			{
+				MouseDown(p._x, p._y);
+			}
+			else if (p.cmd == CMD_MOVE_TO)
+			{
+				MoveMouse(p._x, p._y);
+			}
+			else if (p.cmd == CMD_LEFT_UP)
+			{
+				MouseUp(p._x, p._y);
+			}
+		}
+	}
+}
+
 void run(const std::string& filepath, const int& _touch_num, const Zoom& zoom)
 {
 	InitializeTouchInjection(MAX_TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
@@ -242,6 +295,8 @@ void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepat
 #define text_drawpoint	"drawpoint.txt"
 #define text_touchinfo	"touchinfo.txt"
 #define text_zoomout	"zoomout.txt"
+#define USE_MOUSE_EVENT 1
+
 
 int main(int argc, char* argv[])
 {
@@ -256,7 +311,10 @@ int main(int argc, char* argv[])
 
 	//给切换窗口预留时间
 	Sleep(3000);
-	run(filepath, _touch_num, zoom);
+	if (USE_MOUSE_EVENT)
+		run_send_input(filepath);
+	else
+		run(filepath, _touch_num, zoom);
 
 	return 0;
 }
