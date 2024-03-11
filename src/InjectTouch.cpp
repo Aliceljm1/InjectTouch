@@ -22,6 +22,7 @@ int g_dragX = 100, g_dragY = 30;
 
 void inject_touch(ContackList& contactList)
 {
+	if (contactList.empty()) return;
 	BOOL bRet = TRUE;
 	SetLastError(0); // ÖØÖÃ
 	bRet = InjectTouchInput(static_cast<UINT32>(contactList.size()), &contactList[0]);
@@ -137,6 +138,7 @@ void handle_file(const std::string& file, int _touch_num)
 
 void do_touch(ContackList& list, Stroke& Stroke, std::string action, int idx, const Zoom& zoom)
 {
+	if (Stroke.empty()) return;
 	switch (zoom)
 	{
 	default:
@@ -225,19 +227,13 @@ void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepat
 		exePath.resize(exePath.length() - exename.length());
 		filepath = exePath.append("touchinfo.txt");
 		break;
+	default:
+	case 4:
+		zoom = CHANGE_TO_ZOOM(std::string(argv[3]));
+	case 3:
+		_touch_num = atoi(argv[2]);
 	case 2:
 		filepath = argv[1];
-		break;
-	case 3:
-		filepath = argv[1];
-		_touch_num = atoi(argv[2]);
-		break;
-	case 4:
-		filepath = argv[1];
-		_touch_num = atoi(argv[2]);
-		zoom = CHANGE_TO_ZOOM(std::string(argv[3]));
-		break;
-	default:
 		break;
 	}
 }
