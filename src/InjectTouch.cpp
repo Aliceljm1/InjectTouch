@@ -4,6 +4,8 @@
 #include <map>
 
 #define		MAX_TOUCH_NUM	10			// max touch num  default 10
+#define		NONE_PT_ID		-1		
+
 #define		CMD_LEFT_DOWN	"LeftDown"
 #define		CMD_MOVE_TO		"MoveTo"
 #define		CMD_LEFT_UP		"LeftUp"
@@ -14,7 +16,9 @@
 #define		ACTION_UP		"up"
 #define		ACTION_HOVER	"hover"
 
-int g_dragX = 100;
+#define		CHANGE_TO_ZOOM(str) ((str) == "zoomin" ? ZOOMIN : ((str) == "zoomout" ? ZOOMOUT : NORMAL))
+
+int g_dragX = 100, g_dragY = 30;
 
 void inject_touch(ContackList& contactList)
 {
@@ -78,25 +82,30 @@ void handle_file(const std::string& file, int _touch_num)
 			temp.clear();
 			while (TRUE)
 			{
-				int start = line.find_first_of("{", offset),
+				std::string::size_type start = line.find_first_of("{", offset),
 					end = line.find_first_of("}", offset);
-				if (start == -1 || end == -1) break;
+				if (start == std::string::npos || end == std::string::npos) break;
 
 				std::string item = line.substr(start + 1, end - 1);
 				std::istringstream iss(item);
 
 				std::string cmd, data;
-				int ptId;
-				if (!(iss >> cmd >> data >> ptId))
+				int ptId = NONE_PT_ID;
+				iss >> cmd >> data;
+				if (cmd != CMD_DELAY)
 				{
-					dprintf("read data error");
-					break;
-				}
+					iss >> ptId; // 如果不是睡眠命令，则需要读取ID
+					if (ptId == NONE_PT_ID)
+					{
+						dprintf("parse file error, pointer id is -1");
+						return;
+					}
 
-				// 如果ids数量等于_touch_num, 且当前ptId不在ids中(新增当前id则会超过_touch_num)
-				if (ids.size() >= _touch_num && !ids[ptId]) 
-					goto calc_offset;
-				ids[ptId] = true;
+					// 如果ids数量等于_touch_num, 且当前ptId不在ids中(新增当前id则会超过_touch_num)
+					if (ids.size() >= _touch_num && !ids[ptId])
+						goto calc_offset;
+					ids[ptId] = true;
+				}
 
 				if (cmd == CMD_DELAY)
 				{
@@ -107,7 +116,7 @@ void handle_file(const std::string& file, int _touch_num)
 					int index = data.find_first_of(",");
 					int x = atoi(data.substr(0, index).c_str());
 					int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-					Point p = { cmd, ptId, x, y, lastDelay };
+					Point p = { cmd, ptId, x, y };
 					temp.push_back(p);
 				}
 
@@ -115,6 +124,7 @@ void handle_file(const std::string& file, int _touch_num)
 				offset = end + 1; // 执行偏移
 			}
 
+			// 每一行事件统一睡眠，只睡一次，以最后一次为准
 			g_strokeGroup.delayList.push_back(lastDelay);
 			g_strokeGroup.strokeList.push_back(temp);
 		}
@@ -125,29 +135,27 @@ void handle_file(const std::string& file, int _touch_num)
 	}
 }
 
-void do_touch(ContackList& list, Stroke& Stroke, std::string action, int idx)
+void do_touch(ContackList& list, Stroke& Stroke, std::string action, int idx, const Zoom& zoom)
 {
-	//if (type == "drag")
-	//{
-	//	for (auto &p : Stroke) 
-	//	{
-	//		MakeTouch(list.at(p.pointerId), action, p.x, p.y);
-	//	}
-	//}
-	//else if (type == "zoomout")
-	//{
-	//	for (auto &p : Stroke) 
-	//	{
-	//		short flag = (p.pointerId & 1) ? 1 : -1;
-	//		MakeTouch(list.at(p.pointerId), action, p.x + g_dragX * idx * flag, p.y + g_dragX * (idx));
-	//	}
-	//}
-
-	for (auto& p : Stroke)
+	switch (zoom)
 	{
-		make_touch(list.at(p.pointerId), action, p.x, p.y);
+	default:
+	case NORMAL:
+		for (auto& p : Stroke)
+		{
+			make_touch(list.at(p._ptId), action, p._x, p._y);
+		}
+		break;
+	case ZOOMOUT:
+		for (auto& p : Stroke)
+		{
+			char flag = (p._ptId & 1) ? 1 : -1;
+			make_touch(list.at(p._ptId), action, p._x + g_dragX * idx * flag, p._y + g_dragY * idx);
+		}
+		break;
+	case ZOOMIN:
+		break;
 	}
-
 	inject_touch(list);
 }
 
@@ -155,7 +163,7 @@ void do_touch(ContackList& list, Stroke& Stroke, std::string action, int idx)
  * 模拟触控消息，存在如下原则，down和up附近必须要一同坐标move
  * add by ljm
  */
-void inject_touch_event(ContackList& list)
+void inject_touch_event(ContackList& list, const Zoom& zoom)
 {
 	int size = g_strokeGroup.strokeList.size();
 	for (int i = 0; i < size; ++i)
@@ -179,14 +187,15 @@ void inject_touch_event(ContackList& list)
 			}
 		}
 
-		do_touch(list, strokeDown, ACTION_DOWN, i);
-		Sleep(g_strokeGroup.delayList[i] + 10);
-		do_touch(list, strokeMove, ACTION_MOVE, i);
-		do_touch(list, strokeUp, ACTION_UP, i);
+		do_touch(list, strokeDown, ACTION_DOWN, i, zoom);
+		if (!strokeDown.empty()) Sleep(g_strokeGroup.delayList[i]);
+		do_touch(list, strokeMove, ACTION_MOVE, i, zoom);
+		if (!strokeMove.empty()) Sleep(g_strokeGroup.delayList[i]);
+		do_touch(list, strokeUp, ACTION_UP, i, zoom);
 	}
 }
 
-void run(std::string& filepath, int _touch_num)
+void run(const std::string& filepath, const int& _touch_num, const Zoom& zoom)
 {
 	InitializeTouchInjection(MAX_TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
 	ContackList contactList;
@@ -204,24 +213,32 @@ void run(std::string& filepath, int _touch_num)
 
 	inject_touch(contactList);
 	handle_file(filepath, _touch_num);
-	inject_touch_event(contactList);
+	inject_touch_event(contactList, zoom);
 }
 
-void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepath, std::string& exename, std::string& exePath)
+void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepath, Zoom& zoom,
+	std::string& exename, std::string& exePath)
 {
-	if (argc == 1)
+	switch (argc)
 	{
+	case 1:
 		exePath.resize(exePath.length() - exename.length());
 		filepath = exePath.append("touchinfo.txt");
-	}
-	else if (argc == 2)
-	{
+		break;
+	case 2:
 		filepath = argv[1];
-	}
-	else if (argc == 3)
-	{
+		break;
+	case 3:
 		filepath = argv[1];
 		_touch_num = atoi(argv[2]);
+		break;
+	case 4:
+		filepath = argv[1];
+		_touch_num = atoi(argv[2]);
+		zoom = CHANGE_TO_ZOOM(std::string(argv[3]));
+		break;
+	default:
+		break;
 	}
 }
 
@@ -232,18 +249,18 @@ void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepat
 
 int main(int argc, char* argv[])
 {
-	int _touch_num = 1; // txt中存储的是3指，超过3只会画三个
+	Zoom zoom = NORMAL;
+	int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
 	std::string	filepath = text_drag;
 	std::string	exePath = std::string(argv[0]);
 	std::string	exeName = get_filename(exePath);
 
 	// 处理命令行信息
-	hand_cmd_info(argc, argv, _touch_num, filepath, exeName, exePath);
+	hand_cmd_info(argc, argv, _touch_num, filepath, zoom, exeName, exePath);
 
 	//给切换窗口预留时间
 	Sleep(3000);
-
-	run(filepath, _touch_num);
+	run(filepath, _touch_num, zoom);
 
 	return 0;
 }
