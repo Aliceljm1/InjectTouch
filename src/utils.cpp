@@ -15,3 +15,10 @@ void dprintf(const char* format, ...)
 
 	delete[] strBuffer;
 }
+
+std::string get_filename(std::string path)
+{
+	std::size_t position = path.find_last_of("/\\");
+	std::string filename = path.substr(position + 1);
+	return filename;
+}
