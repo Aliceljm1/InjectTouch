@@ -1,6 +1,0 @@
-LeftDown 1
-Delay 5
-MoveTo 500,500
-Delay 5
-MoveTo 500,500
-LeftUp 1
