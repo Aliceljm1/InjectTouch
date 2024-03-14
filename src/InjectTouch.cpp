@@ -174,7 +174,7 @@ void inject_touch_event(ContackList& list, const Zoom& zoom)
 		Stroke strokeMove;
 		Stroke strokeUp;
 
-		for (Point p : g_strokeGroup.strokeList[i])
+		for (auto& p : g_strokeGroup.strokeList[i])
 		{
 			if (p.cmd == CMD_LEFT_DOWN)
 			{
@@ -253,15 +253,17 @@ void run(const std::string& filepath, const int& _touch_num, const Zoom& zoom)
 void run_send_input(const std::string& filepath)
 {
 	handle_file(filepath, 1);
-	for (auto& stroke : g_strokeGroup.strokeList)
+	int size = g_strokeGroup.strokeList.size();
+	for (int i = 0; i < size; ++i)
 	{
-		for (auto& p : stroke)
+		for (auto& p : g_strokeGroup.strokeList[i])
 		{
 			MoveMouse(p._x, p._y);
 			if (p.cmd == CMD_LEFT_DOWN)
 				MouseDown(p._x, p._y);
 			else if (p.cmd == CMD_LEFT_UP)
 				MouseUp(p._x, p._y);
+			Sleep(g_strokeGroup.delayList[i]);
 		}
 	}
 }
@@ -290,13 +292,28 @@ void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepat
 #define text_drawpoint	"drawpoint.txt"
 #define text_touchinfo	"touchinfo.txt"
 #define text_zoomout	"zoomout.txt"
-#define USE_SEND_INPUT	1
 
+std::filesystem::path ini_path = get_exe_dir() / L"ini.txt";
+std::map<std::string, std::string> data;
+
+Zoom zoom = NORMAL;
+bool USE_SEND_INPUT = false;
+int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
+int timeout = 3000;
+
+void read_ini()
+{
+	read_map_file(ini_path, data);
+	USE_SEND_INPUT = data["USE_SEND_INPUT"] == "1" || data["USE_SEND_INPUT"] == "true";
+	zoom = CHANGE_TO_ZOOM(data["ZOOM"]);
+	_touch_num = atoi(data["TOUCH_NUM"].data());
+	timeout = atoi(data["TIMEOUT"].data());
+}
 
 int main(int argc, char* argv[])
 {
-	Zoom zoom = NORMAL;
-	int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
+	read_ini();
+
 	std::string	filepath = text_drag;
 	std::string	exePath = std::string(argv[0]);
 	std::string	exeName = get_filename(exePath);
@@ -305,7 +322,9 @@ int main(int argc, char* argv[])
 	hand_cmd_info(argc, argv, _touch_num, filepath, zoom, exeName, exePath);
 
 	//给切换窗口预留时间
-	Sleep(3000);
+	Sleep(timeout);
+
+	filepath = text_touchinfo;
 	if (USE_SEND_INPUT)
 		run_send_input(filepath);
 	else
