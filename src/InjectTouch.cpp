@@ -43,10 +43,10 @@ Zoom zoom = NORMAL;
 bool USE_SEND_INPUT = false;
 int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
 int timeout = 3000;
-int offset_x = 0, offset_y = 0;
+int g_offset_x = 0, g_offset_y = 0;
 int g_dragX = 100, g_dragY = 30;
 bool clone_mode = false;
-INT8 clone_num = 0, clone_off_x, clone_off_y;
+int g_delay = 0;
 
 void inject_touch(ContackList& contactList)
 {
@@ -156,7 +156,7 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 					std::string::size_type index = data.find_first_of(",");
 					int x = atoi(data.substr(0, index).c_str());
 					int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-					Point p = { cmd, ptId, x + offset_x, y + offset_y };
+					Point p = { cmd, ptId, x + g_offset_x, y + g_offset_y };
 					temp.push_back(p);
 				}
 
@@ -165,7 +165,7 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 			}
 
 			// 每一行事件统一睡眠，只睡一次，以最后一次为准
-			g_strokeGroup.delayList.push_back(lastDelay);
+			g_strokeGroup.delayList.push_back(max(lastDelay + g_delay, 0));
 			g_strokeGroup.strokeList.push_back(temp);
 		}
 	}
@@ -365,6 +365,7 @@ void read_ini()
 	zoom = CHANGE_TO_ZOOM(data["ZOOM"]);
 	_touch_num = atoi(data["TOUCH_NUM"].data());
 	timeout = atoi(data["TIMEOUT"].data());
-	offset_x = atoi(data["OFFSET_X"].data());
-	offset_y = atoi(data["OFFSET_Y"].data());
+	g_offset_x = atoi(data["OFFSET_X"].data());
+	g_offset_y = atoi(data["OFFSET_Y"].data());
+	g_delay = atoi(data["DELAY"].data());
 }
