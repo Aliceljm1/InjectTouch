@@ -1,9 +1,6 @@
 #include "utils.h"
 #include <stdio.h>
 #include <random>
-#include <Tlhelp32.h>
-#include <type_traits>
-#include <fstream>
 
 void dprintf(const char* format, ...)
 {
@@ -38,28 +35,4 @@ std::filesystem::path get_exe_path()
 std::filesystem::path get_exe_dir()
 {
 	return get_exe_path().parent_path();
-}
-
-bool read_map_file(const std::wstring& path, std::map<std::string, std::string>& map)
-{
-	std::ifstream file(path);
-	
-	if (file.is_open()) {
-		std::string line;
-		while (getline(file, line)) {
-			std::istringstream is_line(line);
-			std::string key;
-			if (getline(is_line, key, '=')) {
-				std::string value_str;
-				if (getline(is_line, value_str)) {
-					map[key] = value_str;
-				}
-			}
-		}
-		file.close();
-	}
-	else {
-		return false;
-	}
-	return true;
 }

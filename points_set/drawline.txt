@@ -1,0 +1,5 @@
+{LeftDown 510,500 0}{Delay 5}
+{MoveTo 510,500 0}{Delay 5}
+{MoveTo 520,500 0}{Delay 5}
+{MoveTo 530,500 0}{Delay 5}
+{LeftUp 530,500 0}{Delay 5}

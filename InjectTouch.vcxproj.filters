@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="src\InjectTouch.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\utils.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\InjectTouch.h" />
+    <ClInclude Include="src\StateMachine.h" />
+    <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\mouse.hpp">
+      <Filter>mouse</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="InjectTouch.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="touchinfo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="mouse">
+      <UniqueIdentifier>{7fac8536-7d75-4783-af5f-ff3a752f8ee9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

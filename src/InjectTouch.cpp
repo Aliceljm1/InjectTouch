@@ -1,7 +1,14 @@
 
 #include "stdafx.h"
 #include "InjectTouch.h"
-#include <map>
+#include "utils.h"
+#include "mouse.hpp"
+
+#include <filesystem>
+#include <iostream>
+#include <type_traits>
+#include <fstream>
+#include <sstream>
 
 #define		MAX_TOUCH_NUM	10			// max touch num  default 10
 #define		NONE_PT_ID		-1		
@@ -16,16 +23,37 @@
 #define		ACTION_UP		"up"
 #define		ACTION_HOVER	"hover"
 
+#define		FLAG_DOWN		(POINTER_FLAG_DOWN | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT)
+#define		FLAG_UP			(POINTER_FLAG_UP)
+#define		FLAG_HOVER		(POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE)
+#define		FLAG_MOVE		(POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT)
+
+#define		text_drag		"points_set\\drag.txt"
+#define		text_drawpoint	"points_set\\drawpoint.txt"
+#define		text_touchinfo	"points_set\\touchinfo.txt"
+#define		text_zoomout	"points_set\\zoomout.txt"
+#define		text_drawline	"points_set\\drawline.txt"
+
 #define		CHANGE_TO_ZOOM(str) ((str) == "zoomin" ? ZOOMIN : ((str) == "zoomout" ? ZOOMOUT : NORMAL))
 
+std::filesystem::path ini_path = L"ini\\ini.txt"; // 配置文件路径
+
+HSYNTHETICPOINTERDEVICE hDevice = NULL;
+Zoom zoom = NORMAL;
+bool USE_SEND_INPUT = false;
+int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
+int timeout = 3000;
+int offset_x = 0, offset_y = 0;
 int g_dragX = 100, g_dragY = 30;
+bool clone_mode = false;
+INT8 clone_num = 0, clone_off_x, clone_off_y;
 
 void inject_touch(ContackList& contactList)
 {
 	if (contactList.empty()) return;
 	BOOL bRet = TRUE;
-	SetLastError(0); // 重置
-	bRet = InjectTouchInput(static_cast<UINT32>(contactList.size()), &contactList[0]);
+	SetLastError(0);
+	bRet = InjectSyntheticPointerInput(hDevice, &contactList[0], static_cast<UINT32>(contactList.size()));
 	if (!bRet)
 	{
 		dprintf("inject touch error=0x%x\n", GetLastError());
@@ -35,42 +63,52 @@ void inject_touch(ContackList& contactList)
 void init_touch(ContackList& list)
 {
 	int i = 0;
-	for (POINTER_TOUCH_INFO& contact : list)
+	for (POINTER_TYPE_INFO& contact : list)
 	{
-		memset(&contact, 0, sizeof(POINTER_TOUCH_INFO));
-		contact.pointerInfo.pointerType = PT_TOUCH; //we're sending touch input
-		contact.pointerInfo.pointerId = i++;          //contact 0
-		contact.touchFlags = TOUCH_FLAG_NONE;
-		contact.touchMask = TOUCH_MASK_CONTACTAREA | TOUCH_MASK_ORIENTATION | TOUCH_MASK_PRESSURE;
-		contact.orientation = 90;
-		contact.pressure = 32000;
+		memset(&contact, 0, sizeof(POINTER_TYPE_INFO));
+		contact.type = PT_TOUCH;
+		contact.touchInfo.pointerInfo.pointerType = PT_TOUCH; //we're sending touch input
+		contact.touchInfo.pointerInfo.pointerId = i++;
+		contact.touchInfo.pointerInfo.dwTime = 0;
+		contact.touchInfo.touchFlags = TOUCH_FLAG_NONE;
+		contact.touchInfo.touchMask = TOUCH_MASK_CONTACTAREA | TOUCH_MASK_ORIENTATION | TOUCH_MASK_PRESSURE;
+		contact.touchInfo.orientation = 90;
+		contact.touchInfo.pressure = 32000;
 	}
 }
 
-void make_touch(POINTER_TOUCH_INFO& contact, const std::string& action, int x, int y)
+void make_touch(POINTER_TYPE_INFO& contact, const std::string& action, int x, int y)
 {
-	contact.pointerInfo.ptPixelLocation.x = x;
-	contact.pointerInfo.ptPixelLocation.y = y;
+	contact.touchInfo.pointerInfo.ptPixelLocation.x = x;
+	contact.touchInfo.pointerInfo.ptPixelLocation.y = y;
 	if (action == ACTION_DOWN)
-		contact.pointerInfo.pointerFlags = POINTER_FLAG_DOWN | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
+		contact.touchInfo.pointerInfo.pointerFlags = FLAG_DOWN;
 	else if (action == ACTION_UP)
-		contact.pointerInfo.pointerFlags = POINTER_FLAG_UP;
+		contact.touchInfo.pointerInfo.pointerFlags = FLAG_UP;
 	else if (action == ACTION_HOVER)
-		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE;
+		contact.touchInfo.pointerInfo.pointerFlags = FLAG_HOVER;
 	else
-		contact.pointerInfo.pointerFlags = POINTER_FLAG_UPDATE | POINTER_FLAG_INRANGE | POINTER_FLAG_INCONTACT;
+		contact.touchInfo.pointerInfo.pointerFlags = FLAG_MOVE;
 
 	//设置触控面积
-	contact.rcContact.top = x - 2;
-	contact.rcContact.bottom = x + 2;
-	contact.rcContact.left = y - 2;
-	contact.rcContact.right = y + 2;
+	contact.touchInfo.rcContact.top = x - 2;
+	contact.touchInfo.rcContact.bottom = x + 2;
+	contact.touchInfo.rcContact.left = y - 2;
+	contact.touchInfo.rcContact.right = y + 2;
 }
 
-void handle_file(const std::string& file, int _touch_num)
+void handle_file(const std::filesystem::path& file, int _touch_num)
 {
+	bool exist = std::filesystem::exists(file);
+	if (!exist)
+	{
+		std::cout << "触控点文件不存在，请检查路径" << std::endl;
+		return;
+	}
+
 	g_stroke.clear(); g_strokeGroup.strokeList.clear();
-	std::ifstream infile(file.c_str());
+	std::ifstream infile(file);
+
 	std::string line;
 	Stroke temp;
 	std::map<int, bool> ids;
@@ -79,7 +117,8 @@ void handle_file(const std::string& file, int _touch_num)
 	{
 		while (std::getline(infile, line))
 		{
-			int offset = 0, lastDelay = 0;
+			std::string::size_type offset = 0;
+			INT16 lastDelay = 0;
 			temp.clear();
 			while (TRUE)
 			{
@@ -114,10 +153,10 @@ void handle_file(const std::string& file, int _touch_num)
 				}
 				else if (cmd == CMD_LEFT_DOWN || cmd == CMD_MOVE_TO || cmd == CMD_LEFT_UP)
 				{
-					int index = data.find_first_of(",");
+					std::string::size_type index = data.find_first_of(",");
 					int x = atoi(data.substr(0, index).c_str());
 					int y = atoi(data.substr(index + 1, data.length() - index - 1).c_str());
-					Point p = { cmd, ptId, x, y };
+					Point p = { cmd, ptId, x + offset_x, y + offset_y };
 					temp.push_back(p);
 				}
 
@@ -167,7 +206,7 @@ void do_touch(ContackList& list, Stroke& Stroke, std::string action, int idx, co
  */
 void inject_touch_event(ContackList& list, const Zoom& zoom)
 {
-	int size = g_strokeGroup.strokeList.size();
+	int size = static_cast<int>(g_strokeGroup.strokeList.size());
 	for (int i = 0; i < size; ++i)
 	{
 		Stroke strokeDown;
@@ -198,45 +237,15 @@ void inject_touch_event(ContackList& list, const Zoom& zoom)
 }
 
 
-void MoveMouse(int x, int y) {
-	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
-	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
-	DWORD dx = x * (65535 / screenWidth);
-	DWORD dy = y * (65535 / screenHeight);
-	//打印dx,dy坐标
-	OutputDebugStringA(std::to_string(dx).c_str());
-	OutputDebugStringA(",");
-	OutputDebugStringA(std::to_string(dy).c_str());
-	OutputDebugStringA("\n");
-
-	mouse_event(MOUSEEVENTF_MOVE | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
-}
-
-void MouseDown(int x, int y) {
-	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
-	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
-	DWORD dx = x * (65535 / screenWidth);
-	DWORD dy = y * (65535 / screenHeight);
-	mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
-}
-
-void MouseUp(int x, int y) {
-	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN) - 1;
-	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN) - 1;
-	DWORD dx = x * (65535 / screenWidth);
-	DWORD dy = y * (65535 / screenHeight);
-	mouse_event(MOUSEEVENTF_LEFTUP | MOUSEEVENTF_ABSOLUTE, dx, dy, 0, 0);
-}
-
-
-void run(const std::string& filepath, const int& _touch_num, const Zoom& zoom)
+void run(const std::filesystem::path& filepath, int& _touch_num, Zoom& zoom)
 {
-	InitializeTouchInjection(MAX_TOUCH_NUM, TOUCH_FEEDBACK_INDIRECT);
-	ContackList contactList;
+	hDevice = CreateSyntheticPointerDevice(PT_TOUCH, MAX_TOUCH_NUM, POINTER_FEEDBACK_DEFAULT);
+	_touch_num = min(_touch_num, MAX_TOUCH_NUM);
 
+	ContackList contactList;
 	for (int i = 0; i < MAX_TOUCH_NUM; i++)
 	{
-		POINTER_TOUCH_INFO c;
+		POINTER_TYPE_INFO c;
 		contactList.push_back(c);
 	}
 
@@ -253,7 +262,7 @@ void run(const std::string& filepath, const int& _touch_num, const Zoom& zoom)
 void run_send_input(const std::string& filepath)
 {
 	handle_file(filepath, 1);
-	int size = g_strokeGroup.strokeList.size();
+	int size = static_cast<int>(g_strokeGroup.strokeList.size());
 	for (int i = 0; i < size; ++i)
 	{
 		for (auto& p : g_strokeGroup.strokeList[i])
@@ -275,46 +284,25 @@ void hand_cmd_info(int argc, char* argv[], int& _touch_num, std::string& filepat
 	{
 	case 1:
 		exePath.resize(exePath.length() - exename.length());
-		filepath = exePath.append("touchinfo.txt");
 		break;
 	default:
 	case 4:
 		zoom = CHANGE_TO_ZOOM(std::string(argv[3]));
+		[[fallthrough]];
 	case 3:
 		_touch_num = atoi(argv[2]);
+		[[fallthrough]];
 	case 2:
 		filepath = argv[1];
 		break;
 	}
 }
 
-#define text_drag		"drag.txt"
-#define text_drawpoint	"drawpoint.txt"
-#define text_touchinfo	"touchinfo.txt"
-#define text_zoomout	"zoomout.txt"
-
-std::filesystem::path ini_path = get_exe_dir() / L"ini.txt";
-std::map<std::string, std::string> data;
-
-Zoom zoom = NORMAL;
-bool USE_SEND_INPUT = false;
-int _touch_num = 3; // txt中存储的是3指，超过3只会画三个
-int timeout = 3000;
-
-void read_ini()
-{
-	read_map_file(ini_path, data);
-	USE_SEND_INPUT = data["USE_SEND_INPUT"] == "1" || data["USE_SEND_INPUT"] == "true";
-	zoom = CHANGE_TO_ZOOM(data["ZOOM"]);
-	_touch_num = atoi(data["TOUCH_NUM"].data());
-	timeout = atoi(data["TIMEOUT"].data());
-}
-
 int main(int argc, char* argv[])
 {
 	read_ini();
 
-	std::string	filepath = text_drag;
+	std::string	filepath = text_touchinfo;
 	std::string	exePath = std::string(argv[0]);
 	std::string	exeName = get_filename(exePath);
 
@@ -324,11 +312,59 @@ int main(int argc, char* argv[])
 	//给切换窗口预留时间
 	Sleep(timeout);
 
-	filepath = text_touchinfo;
 	if (USE_SEND_INPUT)
 		run_send_input(filepath);
 	else
 		run(filepath, _touch_num, zoom);
 
 	return 0;
+}
+
+bool read_map_file(const std::filesystem::path& _path, std::map<std::string, std::string>& map)
+{
+	bool exist = std::filesystem::exists(_path);
+	if (!exist)
+	{
+		std::cout << "配置文件不存在，停止读取配置" << std::endl;
+		return true;
+	}
+
+	std::ifstream file(_path);
+	if (file.is_open()) {
+		std::string line;
+		while (std::getline(file, line)) {
+			if (line.empty()) continue;
+			size_t pos = line.find('#');
+			if (pos != std::string::npos) line.erase(pos);
+			line = replace_all<std::string>(line, " ", "");
+			line = replace_all<std::string>(line, "\t", "");
+			std::istringstream is_line(line);
+			std::string key;
+			if (std::getline(is_line, key, '=')) {
+				if (key.empty()) continue;
+				std::string value;
+				if (std::getline(is_line, value)) {
+					if (value.empty()) continue;
+					map[key] = value;
+				}
+			}
+		}
+		file.close();
+	}
+	else {
+		return false;
+	}
+	return true;
+}
+
+void read_ini()
+{
+	std::map<std::string, std::string> data;
+	read_map_file(ini_path, data);
+	USE_SEND_INPUT = data["USE_SEND_INPUT"] == "1" || data["USE_SEND_INPUT"] == "true";
+	zoom = CHANGE_TO_ZOOM(data["ZOOM"]);
+	_touch_num = atoi(data["TOUCH_NUM"].data());
+	timeout = atoi(data["TIMEOUT"].data());
+	offset_x = atoi(data["OFFSET_X"].data());
+	offset_y = atoi(data["OFFSET_Y"].data());
 }
