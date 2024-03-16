@@ -164,9 +164,12 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 				offset = end + 1; // 执行偏移
 			}
 
-			// 每一行事件统一睡眠，只睡一次，以最后一次为准
-			g_strokeGroup.delayList.push_back(max(lastDelay + g_delay, 0));
-			g_strokeGroup.strokeList.push_back(temp);
+			if (temp.size())
+			{
+				// 每一行事件统一睡眠，只睡一次，以最后一次为准
+				g_strokeGroup.delayList.push_back(max(lastDelay + g_delay, 0));
+				g_strokeGroup.strokeList.push_back(temp);
+			}
 		}
 	}
 	catch (const std::exception& e)

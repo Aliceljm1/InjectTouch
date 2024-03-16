@@ -1,46 +1,111 @@
-{LeftDown 683,482 0}{Delay 20}
-{MoveTo 683,482 0}{LeftDown 783,482 1}{Delay 20}
-{MoveTo 683,482 0}{MoveTo 783,482 1}{LeftDown 883,482 2}{Delay 20}
-{MoveTo 664,477 0}{MoveTo 764,477 1}{MoveTo 864,477 2}{Delay 20}
-{MoveTo 645,476 0}{MoveTo 745,476 1}{MoveTo 845,476 2}{Delay 20}
-{MoveTo 627,476 0}{MoveTo 727,476 1}{MoveTo 827,476 2}{Delay 20}
-{MoveTo 607,476 0}{MoveTo 707,476 1}{MoveTo 807,476 2}{Delay 20}
-{MoveTo 597,476 0}{MoveTo 697,476 1}{MoveTo 797,476 2}{Delay 20}
-{MoveTo 585,479 0}{MoveTo 685,479 1}{MoveTo 785,479 2}{Delay 20}
-{MoveTo 576,484 0}{MoveTo 676,484 1}{MoveTo 776,484 2}{Delay 20}
-{MoveTo 573,486 0}{MoveTo 673,486 1}{MoveTo 773,486 2}{Delay 20}
-{MoveTo 572,489 0}{MoveTo 672,489 1}{MoveTo 772,489 2}{Delay 20}
-{MoveTo 572,494 0}{MoveTo 672,494 1}{MoveTo 772,494 2}{Delay 20}
-{MoveTo 572,502 0}{MoveTo 672,502 1}{MoveTo 772,502 2}{Delay 20}
-{MoveTo 584,512 0}{MoveTo 684,512 1}{MoveTo 784,512 2}{Delay 20}
-{MoveTo 637,537 0}{MoveTo 737,537 1}{MoveTo 837,537 2}{Delay 20}
-{MoveTo 669,551 0}{MoveTo 769,551 1}{MoveTo 869,551 2}{Delay 20}
-{MoveTo 701,563 0}{MoveTo 801,563 1}{MoveTo 901,563 2}{Delay 20}
-{MoveTo 716,570 0}{MoveTo 816,570 1}{MoveTo 916,570 2}{Delay 20}
-{MoveTo 727,577 0}{MoveTo 827,577 1}{MoveTo 927,577 2}{Delay 20}
-{MoveTo 733,582 0}{MoveTo 833,582 1}{MoveTo 933,582 2}{Delay 20}
-{MoveTo 734,589 0}{MoveTo 834,589 1}{MoveTo 934,589 2}{Delay 20}
-{MoveTo 734,595 0}{MoveTo 834,595 1}{MoveTo 934,595 2}{Delay 20}
-{MoveTo 729,603 0}{MoveTo 829,603 1}{MoveTo 929,603 2}{Delay 20}
-{MoveTo 717,608 0}{MoveTo 817,608 1}{MoveTo 917,608 2}{Delay 20}
-{MoveTo 695,613 0}{MoveTo 795,613 1}{MoveTo 895,613 2}{Delay 20}
-{MoveTo 673,616 0}{MoveTo 773,616 1}{MoveTo 873,616 2}{Delay 20}
-{MoveTo 655,616 0}{MoveTo 755,616 1}{MoveTo 855,616 2}{Delay 20}
-{MoveTo 636,616 0}{MoveTo 736,616 1}{MoveTo 836,616 2}{Delay 20}
-{MoveTo 617,613 0}{MoveTo 717,613 1}{MoveTo 817,613 2}{Delay 20}
-{MoveTo 608,606 0}{MoveTo 708,606 1}{MoveTo 808,606 2}{Delay 20}
-{MoveTo 601,597 0}{MoveTo 701,597 1}{MoveTo 801,597 2}{Delay 20}
-{MoveTo 600,585 0}{MoveTo 700,585 1}{MoveTo 800,585 2}{Delay 20}
-{MoveTo 600,565 0}{MoveTo 700,565 1}{MoveTo 800,565 2}{Delay 20}
-{MoveTo 600,544 0}{MoveTo 700,544 1}{MoveTo 800,544 2}{Delay 20}
-{MoveTo 607,526 0}{MoveTo 707,526 1}{MoveTo 807,526 2}{Delay 20}
-{MoveTo 620,505 0}{MoveTo 720,505 1}{MoveTo 820,505 2}{Delay 20}
-{MoveTo 630,495 0}{MoveTo 730,495 1}{MoveTo 830,495 2}{Delay 20}
-{MoveTo 638,484 0}{MoveTo 738,484 1}{MoveTo 838,484 2}{Delay 20}
-{MoveTo 643,479 0}{MoveTo 743,479 1}{MoveTo 843,479 2}{Delay 20}
-{MoveTo 647,475 0}{MoveTo 747,475 1}{MoveTo 847,475 2}{Delay 20}
-{MoveTo 652,471 0}{MoveTo 752,471 1}{MoveTo 852,471 2}{Delay 20}
-{MoveTo 655,470 0}{MoveTo 755,470 1}{MoveTo 855,470 2}{Delay 20}
-{LeftUp 655,470 0}{MoveTo 755,470 1}{MoveTo 855,470 2}{Delay 20}
-{LeftUp 755,470 1}{MoveTo 855,470 2}{Delay 20}
-{LeftUp 855,470 2}{Delay 20}
+{LeftDown 546,386 0}{Delay 10}
+{MoveTo 546,386 0}{Delay 10}
+{MoveTo 546,386 0}{Delay 10}
+{MoveTo 546,386 0}{LeftDown 626,386 1}{Delay 10}
+{MoveTo 546,386 0}{MoveTo 626,386 1}{Delay 10}
+{MoveTo 546,386 0}{MoveTo 626,386 1}{Delay 10}
+{MoveTo 546,386 0}{MoveTo 626,386 1}{LeftDown 706,386 2}{Delay 10}
+{MoveTo 546,386 0}{MoveTo 626,386 1}{MoveTo 706,386 2}{Delay 10}
+{MoveTo 531,382 0}{MoveTo 611,382 1}{MoveTo 691,382 2}{Delay 10}
+{MoveTo 516,381 0}{MoveTo 596,381 1}{MoveTo 676,381 2}{Delay 10}
+{MoveTo 502,381 0}{MoveTo 582,381 1}{MoveTo 662,381 2}{Delay 10}
+{MoveTo 486,381 0}{MoveTo 566,381 1}{MoveTo 646,381 2}{Delay 10}
+{MoveTo 478,381 0}{MoveTo 558,381 1}{MoveTo 638,381 2}{Delay 10}
+{MoveTo 468,383 0}{MoveTo 548,383 1}{MoveTo 628,383 2}{Delay 10}
+{MoveTo 461,387 0}{MoveTo 541,387 1}{MoveTo 621,387 2}{Delay 10}
+{MoveTo 458,389 0}{MoveTo 538,389 1}{MoveTo 618,389 2}{Delay 10}
+{MoveTo 458,391 0}{MoveTo 538,391 1}{MoveTo 618,391 2}{Delay 10}
+{MoveTo 458,395 0}{MoveTo 538,395 1}{MoveTo 618,395 2}{Delay 10}
+{MoveTo 458,402 0}{MoveTo 538,402 1}{MoveTo 618,402 2}{Delay 10}
+{MoveTo 467,410 0}{MoveTo 547,410 1}{MoveTo 627,410 2}{Delay 10}
+{MoveTo 510,430 0}{MoveTo 590,430 1}{MoveTo 670,430 2}{Delay 10}
+{MoveTo 535,441 0}{MoveTo 615,441 1}{MoveTo 695,441 2}{Delay 10}
+{MoveTo 561,450 0}{MoveTo 641,450 1}{MoveTo 721,450 2}{Delay 10}
+{MoveTo 573,456 0}{MoveTo 653,456 1}{MoveTo 733,456 2}{Delay 10}
+{MoveTo 582,462 0}{MoveTo 662,462 1}{MoveTo 742,462 2}{Delay 10}
+{MoveTo 586,466 0}{MoveTo 666,466 1}{MoveTo 746,466 2}{Delay 10}
+{MoveTo 587,471 0}{MoveTo 667,471 1}{MoveTo 747,471 2}{Delay 10}
+{MoveTo 587,476 0}{MoveTo 667,476 1}{MoveTo 747,476 2}{Delay 10}
+{MoveTo 583,482 0}{MoveTo 663,482 1}{MoveTo 743,482 2}{Delay 10}
+{MoveTo 574,486 0}{MoveTo 654,486 1}{MoveTo 734,486 2}{Delay 10}
+{MoveTo 556,490 0}{MoveTo 636,490 1}{MoveTo 716,490 2}{Delay 10}
+{MoveTo 538,493 0}{MoveTo 618,493 1}{MoveTo 698,493 2}{Delay 10}
+{MoveTo 524,493 0}{MoveTo 604,493 1}{MoveTo 684,493 2}{Delay 10}
+{MoveTo 509,493 0}{MoveTo 589,493 1}{MoveTo 669,493 2}{Delay 10}
+{MoveTo 494,490 0}{MoveTo 574,490 1}{MoveTo 654,490 2}{Delay 10}
+{MoveTo 486,485 0}{MoveTo 566,485 1}{MoveTo 646,485 2}{Delay 10}
+{MoveTo 481,478 0}{MoveTo 561,478 1}{MoveTo 641,478 2}{Delay 10}
+{MoveTo 480,468 0}{MoveTo 560,468 1}{MoveTo 640,468 2}{Delay 10}
+{MoveTo 480,452 0}{MoveTo 560,452 1}{MoveTo 640,452 2}{Delay 10}
+{MoveTo 480,435 0}{MoveTo 560,435 1}{MoveTo 640,435 2}{Delay 10}
+{MoveTo 486,421 0}{MoveTo 566,421 1}{MoveTo 646,421 2}{Delay 10}
+{MoveTo 496,404 0}{MoveTo 576,404 1}{MoveTo 656,404 2}{Delay 10}
+{MoveTo 504,396 0}{MoveTo 584,396 1}{MoveTo 664,396 2}{Delay 10}
+{MoveTo 510,387 0}{MoveTo 590,387 1}{MoveTo 670,387 2}{Delay 10}
+{MoveTo 514,383 0}{MoveTo 594,383 1}{MoveTo 674,383 2}{Delay 10}
+{MoveTo 518,380 0}{MoveTo 598,380 1}{MoveTo 678,380 2}{Delay 10}
+{MoveTo 522,377 0}{MoveTo 602,377 1}{MoveTo 682,377 2}{Delay 10}
+{MoveTo 524,376 0}{MoveTo 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{MoveTo 524,376 0}{MoveTo 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{LeftUp 524,376 0}{MoveTo 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{MoveTo 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{MoveTo 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{LeftUp 604,376 1}{MoveTo 684,376 2}{Delay 10}
+{MoveTo 684,376 2}{Delay 10}
+{MoveTo 684,376 2}{Delay 10}
+{LeftUp 684,376 2}{Delay 10}
+{LeftDown 746,586 3}{Delay 10}
+{MoveTo 746,586 3}{Delay 10}
+{MoveTo 746,586 3}{Delay 10}
+{MoveTo 746,586 3}{LeftDown 826,586 4}{Delay 10}
+{MoveTo 746,586 3}{MoveTo 826,586 4}{Delay 10}
+{MoveTo 746,586 3}{MoveTo 826,586 4}{Delay 10}
+{MoveTo 746,586 3}{MoveTo 826,586 4}{LeftDown 906,586 5}{Delay 10}
+{MoveTo 731,582 3}{MoveTo 811,582 4}{MoveTo 891,582 5}{Delay 10}
+{MoveTo 716,581 3}{MoveTo 796,581 4}{MoveTo 876,581 5}{Delay 10}
+{MoveTo 702,581 3}{MoveTo 782,581 4}{MoveTo 862,581 5}{Delay 10}
+{MoveTo 686,581 3}{MoveTo 766,581 4}{MoveTo 846,581 5}{Delay 10}
+{MoveTo 678,581 3}{MoveTo 758,581 4}{MoveTo 838,581 5}{Delay 10}
+{MoveTo 668,583 3}{MoveTo 748,583 4}{MoveTo 828,583 5}{Delay 10}
+{MoveTo 661,587 3}{MoveTo 741,587 4}{MoveTo 821,587 5}{Delay 10}
+{MoveTo 658,589 3}{MoveTo 738,589 4}{MoveTo 818,589 5}{Delay 10}
+{MoveTo 658,591 3}{MoveTo 738,591 4}{MoveTo 818,591 5}{Delay 10}
+{MoveTo 658,595 3}{MoveTo 738,595 4}{MoveTo 818,595 5}{Delay 10}
+{MoveTo 658,602 3}{MoveTo 738,602 4}{MoveTo 818,602 5}{Delay 10}
+{MoveTo 667,610 3}{MoveTo 747,610 4}{MoveTo 827,610 5}{Delay 10}
+{MoveTo 710,630 3}{MoveTo 790,630 4}{MoveTo 870,630 5}{Delay 10}
+{MoveTo 735,641 3}{MoveTo 815,641 4}{MoveTo 895,641 5}{Delay 10}
+{MoveTo 761,650 3}{MoveTo 841,650 4}{MoveTo 921,650 5}{Delay 10}
+{MoveTo 773,656 3}{MoveTo 853,656 4}{MoveTo 933,656 5}{Delay 10}
+{MoveTo 782,662 3}{MoveTo 862,662 4}{MoveTo 942,662 5}{Delay 10}
+{MoveTo 786,666 3}{MoveTo 866,666 4}{MoveTo 946,666 5}{Delay 10}
+{MoveTo 787,671 3}{MoveTo 867,671 4}{MoveTo 947,671 5}{Delay 10}
+{MoveTo 787,676 3}{MoveTo 867,676 4}{MoveTo 947,676 5}{Delay 10}
+{MoveTo 783,682 3}{MoveTo 863,682 4}{MoveTo 943,682 5}{Delay 10}
+{MoveTo 774,686 3}{MoveTo 854,686 4}{MoveTo 934,686 5}{Delay 10}
+{MoveTo 756,690 3}{MoveTo 836,690 4}{MoveTo 916,690 5}{Delay 10}
+{MoveTo 738,693 3}{MoveTo 818,693 4}{MoveTo 898,693 5}{Delay 10}
+{MoveTo 724,693 3}{MoveTo 804,693 4}{MoveTo 884,693 5}{Delay 10}
+{MoveTo 709,693 3}{MoveTo 789,693 4}{MoveTo 869,693 5}{Delay 10}
+{MoveTo 694,690 3}{MoveTo 774,690 4}{MoveTo 854,690 5}{Delay 10}
+{MoveTo 686,685 3}{MoveTo 766,685 4}{MoveTo 846,685 5}{Delay 10}
+{MoveTo 681,678 3}{MoveTo 761,678 4}{MoveTo 841,678 5}{Delay 10}
+{MoveTo 680,668 3}{MoveTo 760,668 4}{MoveTo 840,668 5}{Delay 10}
+{MoveTo 680,652 3}{MoveTo 760,652 4}{MoveTo 840,652 5}{Delay 10}
+{MoveTo 680,635 3}{MoveTo 760,635 4}{MoveTo 840,635 5}{Delay 10}
+{MoveTo 686,621 3}{MoveTo 766,621 4}{MoveTo 846,621 5}{Delay 10}
+{MoveTo 696,604 3}{MoveTo 776,604 4}{MoveTo 856,604 5}{Delay 10}
+{MoveTo 704,596 3}{MoveTo 784,596 4}{MoveTo 864,596 5}{Delay 10}
+{MoveTo 710,587 3}{MoveTo 790,587 4}{MoveTo 870,587 5}{Delay 10}
+{MoveTo 714,583 3}{MoveTo 794,583 4}{MoveTo 874,583 5}{Delay 10}
+{MoveTo 718,580 3}{MoveTo 798,580 4}{MoveTo 878,580 5}{Delay 10}
+{MoveTo 722,577 3}{MoveTo 802,577 4}{MoveTo 882,577 5}{Delay 10}
+{MoveTo 724,576 3}{MoveTo 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{MoveTo 724,576 3}{MoveTo 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{LeftUp 724,576 3}{MoveTo 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{MoveTo 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{MoveTo 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{LeftUp 804,576 4}{MoveTo 884,576 5}{Delay 10}
+{MoveTo 884,576 5}{Delay 10}
+{MoveTo 884,576 5}{Delay 10}
+{LeftUp 884,576 5}{Delay 10}
