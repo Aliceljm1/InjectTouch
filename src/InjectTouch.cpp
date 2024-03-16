@@ -47,6 +47,8 @@ int g_offset_x = 0, g_offset_y = 0;
 int g_dragX = 100, g_dragY = 30;
 bool clone_mode = false;
 int g_delay = 0;
+std::map<short, bool> g_en_id; // enable id
+bool g_use_map = false; // 是否使用上述map
 
 void inject_touch(ContackList& contactList)
 {
@@ -141,9 +143,15 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 						return;
 					}
 
+					if (!USE_SEND_INPUT && g_use_map)
+					{
+						// 如果使用id map，则只需要匹配ID即可，不用管数量
+						if (!g_en_id[ptId]) goto calc_offset;
+					}
+					
 					// 如果ids数量等于_touch_num, 且当前ptId不在ids中(新增当前id则会超过_touch_num)
-					if (ids.size() >= _touch_num && !ids[ptId])
-						goto calc_offset;
+					if (ids.size() >= _touch_num && !ids[ptId]) goto calc_offset;
+
 					ids[ptId] = true;
 				}
 
@@ -372,4 +380,19 @@ void read_ini()
 	g_offset_x = atoi(data["OFFSET_X"].data());
 	g_offset_y = atoi(data["OFFSET_Y"].data());
 	g_delay = atoi(data["DELAY"].data());
+	std::string TOUCH_ID = data["TOUCH_ID"];
+	if (TOUCH_ID.size() >= 2)
+	{
+		TOUCH_ID = TOUCH_ID.substr(1, TOUCH_ID.length() - 2);
+		std::istringstream ss(TOUCH_ID);
+		std::string token;
+		while (std::getline(ss, token, ',')) {
+			g_en_id[atoi(token.data())] = true;
+		}
+	}
+	if (g_en_id.size() > 0)
+	{
+		_touch_num = g_en_id.size();
+		g_use_map = true;
+	}
 }
