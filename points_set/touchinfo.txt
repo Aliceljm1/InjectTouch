@@ -109,3 +109,13 @@
 {MoveTo 884,576 5}{Delay 10}
 {MoveTo 884,576 5}{Delay 10}
 {LeftUp 884,576 5}{Delay 10}
+{LeftDown 500,500 6}{Delay 10}
+{MoveTo 500,500 6}{LeftDown 600,500 7}{Delay 10}
+{MoveTo 500,500 6}{MoveTo 600,500 7}{LeftDown 700,500 8}{Delay 10}
+{MoveTo 500,600 6}{MoveTo 600,600 7}{MoveTo 700,600 8}{Delay 10}
+{MoveTo 500,700 6}{MoveTo 600,700 7}{MoveTo 700,700 8}{Delay 10}
+{MoveTo 500,800 6}{MoveTo 600,800 7}{MoveTo 700,800 8}{Delay 10}
+{MoveTo 500,900 6}{MoveTo 600,900 7}{MoveTo 700,900 8}{Delay 10}
+{LeftUp 500,900 6}{MoveTo 600,900 7}{MoveTo 700,900 8}{Delay 10}
+{LeftUp 600,900 7}{MoveTo 700,900 8}{Delay 10}
+{LeftUp 700,900 8}{Delay 10}

@@ -118,7 +118,7 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 		while (std::getline(infile, line))
 		{
 			std::string::size_type offset = 0;
-			INT16 lastDelay = 0;
+			int delay = 0;
 			temp.clear();
 			while (TRUE)
 			{
@@ -149,7 +149,8 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 
 				if (cmd == CMD_DELAY)
 				{
-					lastDelay = atoi(data.c_str());
+					int __delay = atoi(data.c_str());
+					delay = max(__delay, delay);
 				}
 				else if (cmd == CMD_LEFT_DOWN || cmd == CMD_MOVE_TO || cmd == CMD_LEFT_UP)
 				{
@@ -167,7 +168,7 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 			if (temp.size())
 			{
 				// 每一行事件统一睡眠，只睡一次，以最后一次为准
-				g_strokeGroup.delayList.push_back(max(lastDelay + g_delay, 0));
+				g_strokeGroup.delayList.push_back(max(delay + g_delay, 0));
 				g_strokeGroup.strokeList.push_back(temp);
 			}
 		}
