@@ -15,7 +15,6 @@ def execute_cmd(exe_path):
 
 
 def copy_dll(exe_path):
-    print('当前exe文件: ', exe_path)
     output = execute_cmd(exe_path).stdout
     lines = output.split('\n')
     paths = set()

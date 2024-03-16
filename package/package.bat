@@ -1,1 +1,2 @@
-python _zip.py
+python _zip.py Release
+pause
