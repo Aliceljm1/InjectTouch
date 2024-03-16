@@ -1,1 +1,1 @@
-python _zip.py ..\build\Release\InjectTouch.exe
+python _zip.py
