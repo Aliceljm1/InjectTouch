@@ -1,0 +1,507 @@
+{LeftDown 651,554 0}
+{Delay 47}
+{MoveTo 654,554 0}
+{Delay 0}
+{MoveTo 660,554 0}
+{Delay 16}
+{MoveTo 670,554 0}
+{Delay 0}
+{MoveTo 686,554 0}
+{Delay 15}
+{MoveTo 710,554 0}
+{Delay 0}
+{MoveTo 739,554 0}
+{Delay 16}
+{MoveTo 776,554 0}
+{Delay 0}
+{MoveTo 812,554 0}
+{Delay 15}
+{MoveTo 848,554 0}
+{Delay 0}
+{MoveTo 881,554 0}
+{Delay 16}
+{MoveTo 915,554 0}
+{Delay 0}
+{MoveTo 948,554 0}
+{Delay 16}
+{MoveTo 974,554 0}
+{Delay 0}
+{MoveTo 997,554 0}
+{Delay 15}
+{MoveTo 1018,554 0}
+{Delay 0}
+{MoveTo 1032,553 0}
+{Delay 16}
+{MoveTo 1042,551 0}
+{Delay 62}
+{MoveTo 1044,549 0}
+{Delay 0}
+{LeftUp 1044,549 0}
+{Delay 391}
+{LeftDown 876,591 0}
+{Delay 0}
+{MoveTo 876,594 0}
+{Delay 16}
+{MoveTo 876,601 0}
+{Delay 0}
+{MoveTo 876,609 0}
+{Delay 15}
+{MoveTo 876,619 0}
+{Delay 0}
+{MoveTo 876,626 0}
+{Delay 16}
+{MoveTo 876,636 0}
+{Delay 0}
+{MoveTo 876,650 0}
+{Delay 16}
+{MoveTo 873,667 0}
+{Delay 0}
+{MoveTo 871,687 0}
+{Delay 15}
+{MoveTo 868,711 0}
+{Delay 0}
+{MoveTo 863,738 0}
+{Delay 16}
+{MoveTo 860,768 0}
+{Delay 0}
+{MoveTo 857,798 0}
+{Delay 15}
+{MoveTo 855,828 0}
+{Delay 0}
+{MoveTo 852,855 0}
+{Delay 16}
+{MoveTo 852,882 0}
+{Delay 0}
+{MoveTo 852,905 0}
+{Delay 16}
+{MoveTo 852,928 0}
+{Delay 0}
+{MoveTo 852,945 0}
+{Delay 15}
+{MoveTo 852,959 0}
+{Delay 0}
+{MoveTo 852,962 0}
+{Delay 16}
+{MoveTo 852,963 0}
+{Delay 0}
+{MoveTo 852,965 0}
+{Delay 94}
+{LeftUp 852,965 0}
+{Delay 359}
+{LeftDown 589,1003 0}
+{Delay 16}
+{MoveTo 589,1004 0}
+{Delay 0}
+{MoveTo 593,1006 0}
+{Delay 15}
+{MoveTo 601,1008 0}
+{Delay 0}
+{MoveTo 612,1010 0}
+{Delay 16}
+{MoveTo 629,1012 0}
+{Delay 0}
+{MoveTo 656,1015 0}
+{Delay 16}
+{MoveTo 686,1021 0}
+{Delay 0}
+{MoveTo 720,1026 0}
+{Delay 15}
+{MoveTo 756,1029 0}
+{Delay 0}
+{MoveTo 793,1032 0}
+{Delay 16}
+{MoveTo 829,1035 0}
+{Delay 0}
+{MoveTo 862,1037 0}
+{Delay 15}
+{MoveTo 896,1040 0}
+{Delay 0}
+{MoveTo 929,1043 0}
+{Delay 16}
+{MoveTo 962,1046 0}
+{Delay 0}
+{MoveTo 996,1049 0}
+{Delay 16}
+{MoveTo 1029,1051 0}
+{Delay 0}
+{MoveTo 1062,1054 0}
+{Delay 15}
+{MoveTo 1095,1054 0}
+{Delay 0}
+{MoveTo 1125,1057 0}
+{Delay 16}
+{MoveTo 1149,1057 0}
+{Delay 0}
+{MoveTo 1152,1057 0}
+{Delay 16}
+{MoveTo 1153,1057 0}
+{Delay 187}
+{LeftUp 1153,1057 0}
+{Delay 1000}
+{LeftDown 1484,518 0}
+{Delay 0}
+{MoveTo 1484,522 0}
+{Delay 0}
+{MoveTo 1484,532 0}
+{Delay 16}
+{MoveTo 1484,548 0}
+{Delay 0}
+{MoveTo 1484,565 0}
+{Delay 15}
+{MoveTo 1484,585 0}
+{Delay 0}
+{MoveTo 1481,609 0}
+{Delay 16}
+{MoveTo 1478,632 0}
+{Delay 0}
+{MoveTo 1476,653 0}
+{Delay 16}
+{MoveTo 1473,673 0}
+{Delay 15}
+{MoveTo 1473,693 0}
+{Delay 0}
+{MoveTo 1471,714 0}
+{Delay 16}
+{MoveTo 1471,731 0}
+{Delay 0}
+{MoveTo 1468,745 0}
+{Delay 15}
+{MoveTo 1468,755 0}
+{Delay 0}
+{MoveTo 1466,766 0}
+{Delay 16}
+{MoveTo 1466,773 0}
+{Delay 0}
+{MoveTo 1466,776 0}
+{Delay 16}
+{MoveTo 1465,780 0}
+{Delay 31}
+{MoveTo 1465,780 0}
+{Delay 16}
+{LeftUp 1465,780 0}
+{Delay 328}
+{LeftDown 1535,477 0}
+{Delay 15}
+{MoveTo 1537,475 0}
+{Delay 0}
+{MoveTo 1541,473 0}
+{Delay 16}
+{MoveTo 1544,473 0}
+{Delay 16}
+{MoveTo 1549,473 0}
+{Delay 0}
+{MoveTo 1555,473 0}
+{Delay 15}
+{MoveTo 1562,473 0}
+{Delay 0}
+{MoveTo 1575,473 0}
+{Delay 16}
+{MoveTo 1595,473 0}
+{Delay 0}
+{MoveTo 1618,473 0}
+{Delay 0}
+{MoveTo 1648,473 0}
+{Delay 15}
+{MoveTo 1675,473 0}
+{Delay 0}
+{MoveTo 1702,475 0}
+{Delay 16}
+{MoveTo 1728,478 0}
+{Delay 0}
+{MoveTo 1752,480 0}
+{Delay 16}
+{MoveTo 1769,483 0}
+{Delay 0}
+{MoveTo 1786,485 0}
+{Delay 15}
+{MoveTo 1800,488 0}
+{Delay 16}
+{MoveTo 1804,491 0}
+{Delay 0}
+{MoveTo 1805,491 0}
+{Delay 16}
+{MoveTo 1807,491 0}
+{Delay 0}
+{MoveTo 1808,491 0}
+{Delay 15}
+{MoveTo 1810,491 0}
+{Delay 16}
+{MoveTo 1811,493 0}
+{Delay 0}
+{MoveTo 1811,494 0}
+{Delay 15}
+{MoveTo 1811,500 0}
+{Delay 16}
+{MoveTo 1811,502 0}
+{Delay 0}
+{MoveTo 1811,507 0}
+{Delay 16}
+{MoveTo 1811,512 0}
+{Delay 0}
+{MoveTo 1811,515 0}
+{Delay 15}
+{MoveTo 1811,525 0}
+{Delay 0}
+{MoveTo 1811,542 0}
+{Delay 16}
+{MoveTo 1809,565 0}
+{Delay 0}
+{MoveTo 1807,592 0}
+{Delay 16}
+{MoveTo 1804,622 0}
+{Delay 0}
+{MoveTo 1801,656 0}
+{Delay 15}
+{MoveTo 1801,689 0}
+{Delay 0}
+{MoveTo 1799,722 0}
+{Delay 16}
+{MoveTo 1799,752 0}
+{Delay 0}
+{MoveTo 1796,779 0}
+{Delay 15}
+{MoveTo 1796,802 0}
+{Delay 0}
+{MoveTo 1793,826 0}
+{Delay 16}
+{MoveTo 1791,846 0}
+{Delay 0}
+{MoveTo 1791,863 0}
+{Delay 16}
+{MoveTo 1791,880 0}
+{Delay 0}
+{MoveTo 1791,890 0}
+{Delay 15}
+{MoveTo 1791,893 0}
+{Delay 0}
+{MoveTo 1791,895 0}
+{Delay 16}
+{MoveTo 1791,896 0}
+{Delay 31}
+{MoveTo 1789,896 0}
+{Delay 16}
+{MoveTo 1786,895 0}
+{Delay 0}
+{LeftUp 1786,895 0}
+{Delay 312}
+{LeftDown 1607,659 0}
+{Delay 16}
+{MoveTo 1608,658 0}
+{Delay 0}
+{MoveTo 1612,658 0}
+{Delay 16}
+{MoveTo 1622,658 0}
+{Delay 0}
+{MoveTo 1633,658 0}
+{Delay 15}
+{MoveTo 1643,658 0}
+{Delay 0}
+{MoveTo 1653,658 0}
+{Delay 16}
+{MoveTo 1664,658 0}
+{Delay 0}
+{MoveTo 1674,658 0}
+{Delay 15}
+{MoveTo 1684,658 0}
+{Delay 0}
+{MoveTo 1695,658 0}
+{Delay 16}
+{MoveTo 1702,658 0}
+{Delay 0}
+{MoveTo 1710,658 0}
+{Delay 47}
+{MoveTo 1711,658 0}
+{Delay 0}
+{LeftUp 1711,658 0}
+{Delay 219}
+{LeftDown 1590,726 0}
+{Delay 15}
+{MoveTo 1598,728 0}
+{Delay 0}
+{MoveTo 1608,728 0}
+{Delay 16}
+{MoveTo 1622,728 0}
+{Delay 0}
+{MoveTo 1639,728 0}
+{Delay 16}
+{MoveTo 1652,728 0}
+{Delay 0}
+{MoveTo 1666,728 0}
+{Delay 15}
+{MoveTo 1679,728 0}
+{Delay 0}
+{MoveTo 1682,728 0}
+{Delay 16}
+{MoveTo 1684,728 0}
+{Delay 15}
+{MoveTo 1685,728 0}
+{Delay 47}
+{MoveTo 1687,729 0}
+{Delay 0}
+{MoveTo 1690,734 0}
+{Delay 16}
+{MoveTo 1691,735 0}
+{Delay 0}
+{LeftUp 1691,735 0}
+{Delay 219}
+{LeftDown 1575,764 0}
+{Delay 15}
+{MoveTo 1575,766 0}
+{Delay 32}
+{MoveTo 1575,767 0}
+{Delay 0}
+{MoveTo 1575,768 0}
+{Delay 15}
+{MoveTo 1579,770 0}
+{Delay 0}
+{MoveTo 1584,770 0}
+{Delay 16}
+{MoveTo 1589,770 0}
+{Delay 0}
+{MoveTo 1597,772 0}
+{Delay 15}
+{MoveTo 1611,774 0}
+{Delay 0}
+{MoveTo 1625,774 0}
+{Delay 16}
+{MoveTo 1638,774 0}
+{Delay 0}
+{MoveTo 1652,777 0}
+{Delay 16}
+{MoveTo 1666,777 0}
+{Delay 0}
+{MoveTo 1680,779 0}
+{Delay 15}
+{MoveTo 1683,779 0}
+{Delay 0}
+{MoveTo 1684,779 0}
+{Delay 16}
+{MoveTo 1686,779 0}
+{Delay 62}
+{LeftUp 1686,779 0}
+{Delay 297}
+{LeftDown 1260,916 0}
+{Delay 0}
+{MoveTo 1260,918 0}
+{Delay 16}
+{MoveTo 1265,919 0}
+{Delay 16}
+{MoveTo 1268,919 0}
+{Delay 0}
+{MoveTo 1278,922 0}
+{Delay 15}
+{MoveTo 1299,924 0}
+{Delay 0}
+{MoveTo 1329,924 0}
+{Delay 16}
+{MoveTo 1365,924 0}
+{Delay 0}
+{MoveTo 1410,924 0}
+{Delay 15}
+{MoveTo 1465,924 0}
+{Delay 0}
+{MoveTo 1520,924 0}
+{Delay 16}
+{MoveTo 1583,928 0}
+{Delay 0}
+{MoveTo 1637,928 0}
+{Delay 16}
+{MoveTo 1692,928 0}
+{Delay 0}
+{MoveTo 1740,928 0}
+{Delay 15}
+{MoveTo 1776,928 0}
+{Delay 0}
+{MoveTo 1809,928 0}
+{Delay 16}
+{MoveTo 1839,928 0}
+{Delay 0}
+{MoveTo 1869,930 0}
+{Delay 16}
+{MoveTo 1899,933 0}
+{Delay 0}
+{MoveTo 1923,936 0}
+{Delay 15}
+{MoveTo 1943,938 0}
+{Delay 0}
+{MoveTo 1960,938 0}
+{Delay 16}
+{MoveTo 1963,938 0}
+{Delay 0}
+{MoveTo 1965,940 0}
+{Delay 15}
+{MoveTo 1966,940 0}
+{Delay 16}
+{MoveTo 1968,940 0}
+{Delay 78}
+{LeftUp 1968,940 0}
+{Delay 360}
+{LeftDown 1413,1046 0}
+{Delay 15}
+{MoveTo 1409,1052 0}
+{Delay 0}
+{MoveTo 1407,1055 0}
+{Delay 16}
+{MoveTo 1401,1063 0}
+{Delay 0}
+{MoveTo 1395,1072 0}
+{Delay 15}
+{MoveTo 1388,1084 0}
+{Delay 0}
+{MoveTo 1383,1095 0}
+{Delay 16}
+{MoveTo 1379,1106 0}
+{Delay 0}
+{MoveTo 1377,1110 0}
+{Delay 16}
+{MoveTo 1375,1113 0}
+{Delay 0}
+{MoveTo 1373,1118 0}
+{Delay 15}
+{MoveTo 1371,1124 0}
+{Delay 63}
+{LeftUp 1371,1124 0}
+{Delay 406}
+{LeftDown 1770,1037 0}
+{Delay 16}
+{MoveTo 1772,1040 0}
+{Delay 0}
+{MoveTo 1774,1046 0}
+{Delay 15}
+{MoveTo 1778,1054 0}
+{Delay 0}
+{MoveTo 1782,1062 0}
+{Delay 16}
+{MoveTo 1787,1073 0}
+{Delay 0}
+{MoveTo 1791,1082 0}
+{Delay 16}
+{MoveTo 1795,1090 0}
+{Delay 0}
+{MoveTo 1799,1101 0}
+{Delay 15}
+{MoveTo 1806,1113 0}
+{Delay 0}
+{MoveTo 1816,1128 0}
+{Delay 16}
+{MoveTo 1824,1143 0}
+{Delay 0}
+{MoveTo 1834,1158 0}
+{Delay 15}
+{MoveTo 1844,1176 0}
+{Delay 0}
+{MoveTo 1848,1179 0}
+{Delay 16}
+{MoveTo 1849,1181 0}
+{Delay 0}
+{MoveTo 1851,1186 0}
+{Delay 16}
+{MoveTo 1851,1187 0}
+{Delay 0}
+{MoveTo 1851,1189 0}
+{Delay 15}
+{MoveTo 1851,1190 0}
+{Delay 0}
+{MoveTo 1852,1191 0}
+{Delay 110}
+{LeftUp 1852,1191 0}

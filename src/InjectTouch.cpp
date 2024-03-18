@@ -33,6 +33,7 @@
 #define		text_touchinfo	"points_set\\touchinfo.txt"
 #define		text_zoomout	"points_set\\zoomout.txt"
 #define		text_drawline	"points_set\\drawline.txt"
+#define		text_ben		"points_set\\ben.txt"
 
 #define		CHANGE_TO_ZOOM(str) ((str) == "zoomin" ? ZOOMIN : ((str) == "zoomout" ? ZOOMOUT : NORMAL))
 
@@ -46,7 +47,7 @@ int timeout = 3000;
 int g_offset_x = 0, g_offset_y = 0;
 int g_dragX = 100, g_dragY = 30;
 bool clone_mode = false;
-int g_delay = 0;
+int g_delay = 0, g_delay_mul = 0;
 std::map<short, bool> g_en_id; // enable id
 bool g_use_map = false; // 是否使用上述map
 
@@ -173,12 +174,10 @@ void handle_file(const std::filesystem::path& file, int _touch_num)
 				offset = end + 1; // 执行偏移
 			}
 
-			if (temp.size())
-			{
-				// 每一行事件统一睡眠，只睡一次，以最后一次为准
-				g_strokeGroup.delayList.push_back(max(delay + g_delay, 0));
-				g_strokeGroup.strokeList.push_back(temp);
-			}
+			// 每一行事件统一睡眠，只睡一次，以最后一次为准
+			int _ud = max(delay + g_delay, 0);
+			g_strokeGroup.delayList.push_back(_ud * (g_delay_mul + 1));
+			g_strokeGroup.strokeList.push_back(temp);
 		}
 	}
 	catch (const std::exception& e)
@@ -240,11 +239,10 @@ void inject_touch_event(ContackList& list, const Zoom& zoom)
 			}
 		}
 
-		do_touch(list, strokeDown, ACTION_DOWN, i, zoom);
-		if (!strokeDown.empty()) Sleep(g_strokeGroup.delayList[i]);
-		do_touch(list, strokeMove, ACTION_MOVE, i, zoom);
-		if (!strokeMove.empty()) Sleep(g_strokeGroup.delayList[i]);
-		do_touch(list, strokeUp, ACTION_UP, i, zoom);
+		if (strokeMove.size()) do_touch(list, strokeMove, ACTION_MOVE, i, zoom);
+		if (strokeDown.size()) do_touch(list, strokeDown, ACTION_DOWN, i, zoom);
+		if (strokeUp.size()) do_touch(list, strokeUp, ACTION_UP, i, zoom);
+		Sleep(g_strokeGroup.delayList[i]);
 	}
 }
 
@@ -284,8 +282,8 @@ void run_send_input(const std::string& filepath)
 				MouseDown(p._x, p._y);
 			else if (p.cmd == CMD_LEFT_UP)
 				MouseUp(p._x, p._y);
-			Sleep(g_strokeGroup.delayList[i]);
 		}
+		Sleep(g_strokeGroup.delayList[i]);
 	}
 }
 
@@ -380,6 +378,8 @@ void read_ini()
 	g_offset_x = atoi(data["OFFSET_X"].data());
 	g_offset_y = atoi(data["OFFSET_Y"].data());
 	g_delay = atoi(data["DELAY"].data());
+	g_delay_mul = atoi(data["DELAY_MUL"].data());
+	g_delay_mul = max(0, g_delay_mul);
 	std::string TOUCH_ID = data["TOUCH_ID"];
 	if (TOUCH_ID.size() >= 2)
 	{
