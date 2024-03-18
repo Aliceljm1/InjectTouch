@@ -10,7 +10,7 @@
 #include <fstream>
 #include <sstream>
 
-#define		MAX_TOUCH_NUM	10			// max touch num  default 10
+#define		MAX_TOUCH_NUM	256			// max touch num  default 10
 #define		NONE_PT_ID		-1		
 
 #define		CMD_LEFT_DOWN	"LeftDown"
@@ -59,7 +59,9 @@ void inject_touch(ContackList& contactList)
 	bRet = InjectSyntheticPointerInput(hDevice, &contactList[0], static_cast<UINT32>(contactList.size()));
 	if (!bRet)
 	{
-		dprintf("inject touch error=0x%x\n", GetLastError());
+		DWORD error = GetLastError();
+		printf("inject touch error=0x%x\n", error);
+		dprintf("inject touch error=0x%x\n", error);
 	}
 }
 
@@ -249,11 +251,11 @@ void inject_touch_event(ContackList& list, const Zoom& zoom)
 
 void run(const std::filesystem::path& filepath, int& _touch_num, Zoom& zoom)
 {
-	hDevice = CreateSyntheticPointerDevice(PT_TOUCH, MAX_TOUCH_NUM, POINTER_FEEDBACK_DEFAULT);
 	_touch_num = min(_touch_num, MAX_TOUCH_NUM);
+	hDevice = CreateSyntheticPointerDevice(PT_TOUCH, _touch_num, POINTER_FEEDBACK_DEFAULT);
 
 	ContackList contactList;
-	for (int i = 0; i < MAX_TOUCH_NUM; i++)
+	for (int i = 0; i < _touch_num; i++)
 	{
 		POINTER_TYPE_INFO c;
 		contactList.push_back(c);
@@ -261,7 +263,7 @@ void run(const std::filesystem::path& filepath, int& _touch_num, Zoom& zoom)
 
 	init_touch(contactList);
 
-	for (int i = 0; i < MAX_TOUCH_NUM; i++)
+	for (int i = 0; i < _touch_num; i++)
 		make_touch(contactList.at(i), ACTION_HOVER, 0, 0);//经验代码，不加会失效
 
 	inject_touch(contactList);
@@ -271,7 +273,7 @@ void run(const std::filesystem::path& filepath, int& _touch_num, Zoom& zoom)
 
 void run_send_input(const std::string& filepath)
 {
-	handle_file(filepath, 1);
+	handle_file(filepath, MAX_TOUCH_NUM); // 鼠标不限制ID数量，但是推荐txt文本中笔迹在同一时刻只有一条绘制
 	int size = static_cast<int>(g_strokeGroup.strokeList.size());
 	for (int i = 0; i < size; ++i)
 	{
@@ -392,7 +394,7 @@ void read_ini()
 	}
 	if (g_en_id.size() > 0)
 	{
-		_touch_num = g_en_id.size();
+		_touch_num = static_cast<int>(g_en_id.size());
 		g_use_map = true;
 	}
 }
